@@ -1,0 +1,49 @@
+import Image from "next/image";
+import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
+import type { Article } from "@/lib/articles";
+import { formatDate } from "@/lib/format";
+export default function ArticleCard({
+  article,
+  large = false,
+}: {
+  article: Article;
+  large?: boolean;
+}) {
+  return (
+    <article className={`article-card ${large ? "card-large" : ""}`}>
+      <Link
+        href={`/articles/${article.slug}`}
+        className="card-image"
+        tabIndex={-1}
+        aria-hidden="true"
+      >
+        <Image
+          src={article.image}
+          alt=""
+          fill
+          sizes={
+            large
+              ? "(max-width: 760px) 100vw, 55vw"
+              : "(max-width: 760px) 100vw, 33vw"
+          }
+        />
+        <span className="image-arrow">
+          <ArrowUpRight size={20} />
+        </span>
+      </Link>
+      <div className="card-copy">
+        <span className="eyebrow red">{article.category}</span>
+        <h3>
+          <Link href={`/articles/${article.slug}`}>{article.title}</Link>
+        </h3>
+        <p>{article.excerpt}</p>
+        <div className="meta">
+          {formatDate(article.date)}
+          <span>·</span>
+          {article.readingTime} min read
+        </div>
+      </div>
+    </article>
+  );
+}
