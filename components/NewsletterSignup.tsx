@@ -1,6 +1,6 @@
 "use client";
 import { useState, type FormEvent } from "react";
-import { ArrowRight, Check } from "lucide-react";
+import { Check } from "lucide-react";
 export default function NewsletterSignup() {
   const [done, setDone] = useState(false);
   function submit(event: FormEvent<HTMLFormElement>) {
@@ -10,23 +10,22 @@ export default function NewsletterSignup() {
   return (
     <section className="newsletter" id="newsletter">
       <div className="container newsletter-inner">
-        <div>
-          <span className="eyebrow">THE NEXT CHAPTER STARTS WITH YOU</span>
+        <div className="newsletter-title">
+          <span className="spaced-label">STAY INFORMED</span>
           <h2>
             Join Thousands Building
-            <br />a Stronger America<span>.</span>
+            <br />a Stronger America
           </h2>
-          <p>Fresh ideas. Meaningful conversations. A higher standard.</p>
         </div>
         <div className="signup-area">
           {done ? (
             <div className="signup-success" role="status">
-              <Check />
+              <Check size={24} />
               <div>
                 <strong>Thanks for raising your hand.</strong>
                 <p>
-                  This signup is a preview. Your email hasn’t been stored or
-                  subscribed yet.
+                  This is a signup preview. Your email has not been stored or
+                  subscribed.
                 </p>
                 <button className="text-button" onClick={() => setDone(false)}>
                   Back to signup
@@ -35,7 +34,9 @@ export default function NewsletterSignup() {
             </div>
           ) : (
             <form onSubmit={submit}>
-              <label htmlFor="newsletter-email">Your email address</label>
+              <label className="sr-only" htmlFor="newsletter-email">
+                Your email address
+              </label>
               <div className="email-row">
                 <input
                   id="newsletter-email"
@@ -45,13 +46,15 @@ export default function NewsletterSignup() {
                   autoComplete="email"
                   required
                   maxLength={254}
+                  aria-describedby="signup-note"
                 />
                 <button className="button" type="submit">
-                  Count me in <ArrowRight size={17} />
+                  Join now
                 </button>
               </div>
-              <p className="form-note">
-                Signup preview. Email subscriptions are coming soon.
+              <p className="form-note" id="signup-note">
+                Get the latest articles, videos, and event updates.
+                <span>Signup preview · Subscriptions coming soon.</span>
               </p>
             </form>
           )}

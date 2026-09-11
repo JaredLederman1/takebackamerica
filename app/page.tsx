@@ -1,77 +1,92 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Hero from "@/components/Hero";
 import PlatformNav from "@/components/PlatformNav";
-import ArticleCard from "@/components/ArticleCard";
+import FeaturedCard, { type FeaturedItem } from "@/components/FeaturedCard";
 import MissionSection from "@/components/MissionSection";
 import NewsletterSignup from "@/components/NewsletterSignup";
-import { getAllArticles } from "@/lib/articles";
+import { getFeaturedArticles } from "@/lib/articles";
 export default function Home() {
-  const articles = getAllArticles()
-    .filter((a) => a.featured)
-    .slice(0, 3);
+  const articles = getFeaturedArticles();
+  const essay = articles[0];
+  const latest =
+    articles.find(
+      (a) => a.slug !== essay?.slug && a.slug !== "same-land-brighter-tomorrow",
+    ) ?? articles[1];
+  const cards: FeaturedItem[] = [
+    ...(essay
+      ? [
+          {
+            title: essay.title,
+            label: "Featured essay",
+            excerpt: essay.excerpt,
+            image: essay.image,
+            href: `/articles/${essay.slug}`,
+          },
+        ]
+      : []),
+    {
+      title: "What Went Wrong and How We Fix It",
+      label: "Latest podcast",
+      excerpt: "A conversation on culture, politics, and the next generation.",
+      image: "/images/podcast.jpg",
+      href: "/podcast",
+      play: true,
+      comingSoon: true,
+    },
+    {
+      title: "Same Land. A Brighter Tomorrow.",
+      label: "Featured video",
+      excerpt: "A short film on what’s still worth fighting for.",
+      image: "/images/hero.jpg",
+      href: "/videos",
+      play: true,
+      comingSoon: true,
+    },
+    ...(latest
+      ? [
+          {
+            title: latest.title,
+            label: "Latest article",
+            excerpt: latest.excerpt,
+            image: latest.image,
+            href: `/articles/${latest.slug}`,
+          },
+        ]
+      : []),
+  ];
   return (
     <>
       <Hero />
       <PlatformNav />
-      <section className="container featured section-space">
-        <div className="section-heading">
-          <div>
-            <span className="eyebrow red">IDEAS WORTH ENGAGING</span>
-            <h2>
-              FEATURED<span className="red">.</span>
-            </h2>
+      <section className="featured">
+        <div className="container">
+          <div className="featured-heading">
+            <h2>FEATURED</h2>
+            <Link href="/articles">
+              View all <ArrowRight size={18} />
+            </Link>
           </div>
-          <Link className="text-link" href="/articles">
-            All articles <ArrowUpRight size={18} />
-          </Link>
-        </div>
-        <div className="featured-grid">
-          {articles.map((article, i) => (
-            <ArticleCard key={article.slug} article={article} large={i === 0} />
-          ))}
+          <div className="featured-grid">
+            {cards.map((item) => (
+              <FeaturedCard item={item} key={item.href} />
+            ))}
+          </div>
         </div>
       </section>
       <MissionSection />
-      <section className="container community section-space">
-        <div className="community-copy">
-          <span className="eyebrow red">BE PART OF THE CONVERSATION</span>
-          <h2>
-            REAL PEOPLE.
-            <br />
-            REAL CONVERSATIONS.
-            <br />
-            <span>REAL CHANGE.</span>
-          </h2>
-          <p>
-            Good ideas grow when people come together. On campus, in our
-            communities, and across the country—there’s a place for your voice.
-          </p>
-          <Link href="/events" className="text-link">
-            Upcoming events <ArrowUpRight size={18} />
-          </Link>
-        </div>
-        <div className="community-image">
-          <Image
-            src="/images/community.jpg"
-            alt="People coming together for a conversation"
-            fill
-            sizes="(max-width: 760px) 100vw, 50vw"
-          />
-          <span>SHOW UP. SPEAK UP. BUILD TOGETHER.</span>
-        </div>
-      </section>
       <NewsletterSignup />
       <section className="closing-banner">
-        <Image src="/images/hero.jpg" alt="" fill sizes="100vw" />
+        <Image
+          src="/images/hero.jpg"
+          alt="Sunrise over the Sawtooth mountains in Idaho"
+          fill
+          sizes="100vw"
+        />
         <div>
-          <span className="eyebrow">LOOK AHEAD. AIM HIGHER.</span>
-          <h2>
-            HIGHER PEOPLE.
-            <br />
-            HIGHER STANDARDS.
-          </h2>
+          <h2>HIGHER PEOPLE. HIGHER STANDARDS.</h2>
+          <span />
         </div>
       </section>
     </>

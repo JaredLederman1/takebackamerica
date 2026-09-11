@@ -74,3 +74,7 @@ export function formatDate(date: string) {
     timeZone: "UTC",
   }).format(new Date(date));
 }
+
+export function getFeaturedArticles() {
+  return getAllArticles().filter((article) => article.featured);
+}

@@ -34,7 +34,7 @@ Your opening paragraph.
 More of your article.
 ```
 
-Three featured articles appear on the homepage, newest first. All files are published at build time, including future-dated files: keep drafts outside `content/articles`. Missing images, required fields, invalid slugs, and duplicate slugs fail the build with a useful message. Only trusted repository contributors should author MDX; it can execute code. Use regular Markdown syntax for the simplest workflow.
+Featured article slots on the homepage draw from the newest featured MDX files. All files are published at build time, including future-dated files: keep drafts outside `content/articles`. Missing images, required fields, invalid slugs, and duplicate slugs fail the build with a useful message. Only trusted repository contributors should author MDX; it can execute code. Use regular Markdown syntax for the simplest workflow.
 
 ## Validate
 
@@ -67,3 +67,20 @@ Photos are stored locally for reliable loading and served through Next Image opt
 - License: https://unsplash.com/license
 
 Typography uses local system font stacks (Impact/Arial Narrow, Georgia, Arial) without external font requests. The layout works with fallback fonts across platforms.
+
+## Reference-matched homepage
+
+The homepage follows the supplied September 2026 mockup: integrated hero header, striped typographic wordmark, six-item platform strip, four image-overlay featured cards, monument/event split, compact signup, landscape banner, and dark footer. Article cards use the MDX content system; podcast and video cards lead to clearly marked coming-soon pages. Social icons are labeled placeholders until official profiles are supplied.
+
+`getFeaturedArticles()` provides newest-first featured content. The first essay and another featured article fill the two working homepage article slots. The `sample: true` field is optional and labels the three sample articles; omit it for approved articles.
+
+Additional local placeholder photography (no endorsement implied):
+
+- `dc-sunrise.jpg`: Sara Cottle, golden Washington skyline — https://unsplash.com/photos/silhouette-of-trees-and-buildings-during-sunset-F_CHcgDY9fI
+- `flag-close.jpg`: Osman Rana — https://unsplash.com/photos/closeup-photo-of-usa-flag-5suZOn9jRas
+- `monument.jpg`: Philipp Katzenberger, Lincoln Memorial — https://unsplash.com/photos/abraham-lincoln-statue-2aq5aGBQC-s
+- `capitol.jpg`: Louis Velazquez — https://unsplash.com/photos/united-states-capitol-building-in-washington-XWW746i6WoM
+- `podcast.jpg`: cottonbro studio — https://www.pexels.com/photo/a-man-sitting-on-a-table-with-a-microphone-6883798/
+- `campus.jpg`: Allan Lee, Operation Welcome Home parade (illustrative community gathering, not a Take Back America event) — https://www.pexels.com/photo/people-gathering-on-street-for-a-parade-9483730/
+- `essay.jpg`: Atlantic Ambience — https://www.pexels.com/photo/unrecognizable-person-with-american-flag-7911934/
+- Licenses: https://unsplash.com/license and https://www.pexels.com/license/

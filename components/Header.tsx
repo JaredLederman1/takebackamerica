@@ -1,8 +1,8 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
-import { Menu, X, Search, ArrowUpRight } from "lucide-react";
+import { useRef, useState } from "react";
+import { Menu, X, Search } from "lucide-react";
 import Logo from "./Logo";
 const links = [
   ["Articles", "/articles"],
@@ -13,20 +13,31 @@ const links = [
   ["Get Involved", "/get-involved"],
 ];
 export default function Header() {
-  const [open, setOpen] = useState(false);
   const pathname = usePathname();
+  const [menuPath, setMenuPath] = useState<string | null>(null);
+  const open = menuPath === pathname;
+  const toggle = useRef<HTMLButtonElement>(null);
+  function close() {
+    setMenuPath(null);
+    toggle.current?.focus();
+  }
   return (
-    <header className="header">
+    <header
+      className={`header ${pathname === "/" ? "header-home" : ""} ${open ? "menu-open" : ""}`}
+      onKeyDown={(e) => {
+        if (e.key === "Escape") close();
+      }}
+    >
       <div className="header-inner">
         <Logo />
         <nav className="desktop-nav" aria-label="Main navigation">
-          {links.map(([title, href]) => (
+          {links.map(([label, href]) => (
             <Link
               key={href}
               href={href}
               aria-current={pathname === href ? "page" : undefined}
             >
-              {title}
+              {label}
             </Link>
           ))}
         </nav>
@@ -36,20 +47,25 @@ export default function Header() {
             className="search-link"
             aria-label="Search articles"
           >
-            <Search size={19} />
+            <Search size={23} />
           </Link>
-          <Link href="/support" className="donate-link">
+          <Link href="/support" className="button donate-link">
             Donate
           </Link>
-          <Link href="/#newsletter" className="button small">
-            Join <ArrowUpRight size={15} />
+          <Link
+            href="/#newsletter"
+            className="button join-link"
+            onClick={() => setMenuPath(null)}
+          >
+            Join
           </Link>
           <button
+            ref={toggle}
             className="menu-toggle"
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
             aria-controls="mobile-menu"
-            onClick={() => setOpen(!open)}
+            onClick={() => setMenuPath(open ? null : pathname)}
           >
             {open ? <X /> : <Menu />}
           </button>
@@ -60,17 +76,17 @@ export default function Header() {
           id="mobile-menu"
           className="mobile-nav"
           aria-label="Mobile navigation"
-          onKeyDown={(e) => {
-            if (e.key === "Escape") setOpen(false);
-          }}
         >
-          {links.map(([title, href]) => (
-            <Link key={href} href={href} onClick={() => setOpen(false)}>
-              {title}
+          {links.map(([label, href]) => (
+            <Link key={href} href={href} onClick={() => setMenuPath(null)}>
+              {label}
             </Link>
           ))}
-          <Link href="/support" onClick={() => setOpen(false)}>
-            Support our work
+          <Link href="/articles#search" onClick={() => setMenuPath(null)}>
+            Search articles
+          </Link>
+          <Link href="/support" onClick={() => setMenuPath(null)}>
+            Donate
           </Link>
         </nav>
       )}

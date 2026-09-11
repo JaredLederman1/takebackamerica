@@ -1,37 +1,60 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 export default function MissionSection() {
   return (
     <section className="mission" id="mission">
-      <div className="mission-image">
+      <div className="mission-panel">
         <Image
-          src="/images/landscape.jpg"
-          alt="An American flag against an open sky"
+          src="/images/monument.jpg"
+          alt="Classical monumental sculpture"
           fill
-          sizes="(max-width: 760px) 100vw, 50vw"
+          sizes="(max-width: 760px) 100vw, 54vw"
         />
-        <span>THE FUTURE IS OURS TO BUILD.</span>
+        <div className="mission-copy">
+          <span className="spaced-label">OUR MISSION</span>
+          <h2>
+            A HIGHER
+            <br />
+            STANDARD
+          </h2>
+          <div className="brush-rule" />
+          <p>
+            We believe in a stronger people, a stronger culture, and a stronger
+            America. Through ideas, media, and action, we&apos;re building a
+            generation that chooses responsibility over comfort, excellence over
+            complacency, and a brighter future over decline.
+          </p>
+          <Link href="/about" className="button outline-button">
+            About our mission <ArrowRight size={17} />
+          </Link>
+        </div>
       </div>
-      <div className="mission-copy">
-        <span className="eyebrow">OUR MISSION</span>
-        <h2>
-          A HIGHER
-          <br />
-          STANDARD<span>.</span>
-        </h2>
-        <div className="red-rule" />
-        <p className="mission-lead">
-          A stronger country starts with the people we choose to be.
-        </p>
-        <p>
-          Character. Responsibility. Family. Community. We believe in doing the
-          work, pursuing excellence, and building something that lasts.
-        </p>
-        <p>Less standing on the sidelines. More showing up.</p>
-        <Link href="/about" className="button cream-button">
-          About our mission <ArrowUpRight size={17} />
-        </Link>
+      <div className="community-panel">
+        <div className="community-image">
+          <Image
+            src="/images/campus.jpg"
+            alt="An outdoor gathering with an American flag"
+            fill
+            sizes="(max-width: 760px) 55vw, 25vw"
+          />
+        </div>
+        <div className="community-copy">
+          <h2>
+            REAL PEOPLE.
+            <br />
+            REAL CONVERSATIONS.
+            <br />
+            REAL CHANGE.
+          </h2>
+          <p>
+            From college campuses to communities across the country, we&apos;re
+            taking the conversation back to where it belongs — with the people.
+          </p>
+          <Link href="/events" className="button outline-button">
+            Upcoming events <ArrowRight size={17} />
+          </Link>
+        </div>
       </div>
     </section>
   );

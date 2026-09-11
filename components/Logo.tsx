@@ -1,17 +1,22 @@
 import Link from "next/link";
+export function StripeMark({ className = "" }: { className?: string }) {
+  return (
+    <span className={`stripe-mark ${className}`} aria-hidden="true">
+      <i />
+      <i />
+      <i />
+    </span>
+  );
+}
 export default function Logo() {
   return (
     <Link href="/" className="logo" aria-label="Take Back America home">
-      <span className="logo-stripes" aria-hidden="true">
-        <i />
-        <i />
-        <i />
-      </span>
       <span>
         TAKE BACK
         <br />
-        AMERICA<span className="logo-period">.</span>
+        <span className="word-america">AMERICA</span>
       </span>
+      <StripeMark />
     </Link>
   );
 }
