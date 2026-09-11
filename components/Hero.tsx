@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Play } from "lucide-react";
-import { StripeMark } from "./Logo";
+
 export default function Hero() {
   return (
     <section className="hero">
@@ -25,13 +25,9 @@ export default function Hero() {
       </div>
       <div className="container hero-content">
         <p className="hero-eyebrow">BOLDER PEOPLE. A BRIGHTER TOMORROW.</p>
-        <div className="hero-title">
-          <h1>
-            TAKE BACK
-            <br />
-            <span className="word-america">AMERICA</span>
-          </h1>
-          <StripeMark />
+        <div className="hero-title hero-brand">
+          <h1 className="sr-only">Take Back America</h1>
+          <Image src="/brand/logo-full.png" alt="Take Back America — A Stronger Tomorrow" width={1600} height={854} loading="eager" sizes="(max-width: 600px) 90vw, 600px" />
         </div>
         <p className="hero-tagline">Ideas. People. Action.</p>
         <p className="hero-description">

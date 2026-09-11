@@ -5,7 +5,7 @@ export default function Footer() {
   return (
     <footer className="footer">
       <div className="container footer-top">
-        <Logo />
+        <Logo reversed />
         <nav aria-label="Footer navigation">
           {["Articles", "Videos", "Podcast", "Events", "About", "Contact"].map(
             (label) => (

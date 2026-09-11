@@ -1758,3 +1758,15 @@ p {
   transform: scaleX(1.17);
   transform-origin: left center;
 }
+/* Supplied brand package: preserve the artwork and its native aspect ratios. */
+.logo.brand-logo {display:block;width:300px;line-height:0;flex-shrink:0;}
+.brand-logo img {display:block;width:100%;height:auto;object-fit:contain;}
+.footer .logo.brand-logo-reversed {width:200px;}
+.hero-title.hero-brand {width:min(600px,56vw);}
+.hero-brand>img {display:block;width:100%;height:auto;object-fit:contain;}
+.hero .hero-content {padding-top:112px;}
+.hero-brand h1.sr-only {position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);font-size:1px;}
+.hero {min-height:690px;}
+@media(max-width:1200px){.desktop-nav{display:none}.menu-toggle{display:flex}.header-home .menu-toggle{color:white}.mobile-nav{display:flex;flex-direction:column;background:var(--cream);padding:12px 5% 22px;border-bottom:1px solid var(--line);max-height:75vh;overflow:auto}.mobile-nav a{padding:11px 0;border-bottom:1px solid var(--line);font-size:14px;font-weight:700;text-transform:uppercase}.header-home.menu-open .menu-toggle{color:var(--navy)}}
+@media(max-width:600px){.logo.brand-logo{width:190px}.hero-title.hero-brand{width:100%;max-width:440px}.hero .hero-content{padding-top:120px}.hero{min-height:690px}.header-home .menu-toggle{color:var(--navy)}.footer .logo.brand-logo-reversed{width:190px}}
+@media(max-width:380px){.logo.brand-logo{width:155px}.header-inner{gap:8px}.header-actions{gap:3px}}

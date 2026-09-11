@@ -1,22 +1,16 @@
+import Image from "next/image";
 import Link from "next/link";
-export function StripeMark({ className = "" }: { className?: string }) {
+
+export default function Logo({ reversed = false }: { reversed?: boolean }) {
   return (
-    <span className={`stripe-mark ${className}`} aria-hidden="true">
-      <i />
-      <i />
-      <i />
-    </span>
-  );
-}
-export default function Logo() {
-  return (
-    <Link href="/" className="logo" aria-label="Take Back America home">
-      <span>
-        TAKE BACK
-        <br />
-        <span className="word-america">AMERICA</span>
-      </span>
-      <StripeMark />
+    <Link href="/" className={`logo brand-logo ${reversed ? "brand-logo-reversed" : ""}`} aria-label="Take Back America home">
+      <Image
+        src={reversed ? "/brand/logo-reversed.png" : "/brand/logo-horizontal.png"}
+        alt="Take Back America — A Stronger Tomorrow"
+        width={reversed ? 1600 : 1200}
+        height={reversed ? 854 : 227}
+        sizes={reversed ? "200px" : "(max-width: 380px) 155px, (max-width: 600px) 190px, 300px"}
+      />
     </Link>
   );
 }

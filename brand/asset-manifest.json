@@ -1,0 +1,242 @@
+[
+  {
+    "file": "01-full-logo/tba-full-cream-1600w.png",
+    "width": 1600,
+    "height": 854,
+    "alpha": false
+  },
+  {
+    "file": "01-full-logo/tba-full-cream-2400w.png",
+    "width": 2400,
+    "height": 1281,
+    "alpha": false
+  },
+  {
+    "file": "01-full-logo/tba-full-cream-800w.png",
+    "width": 800,
+    "height": 427,
+    "alpha": false
+  },
+  {
+    "file": "01-full-logo/tba-full-transparent-1600w.png",
+    "width": 1600,
+    "height": 854,
+    "alpha": true
+  },
+  {
+    "file": "01-full-logo/tba-full-transparent-2400w.png",
+    "width": 2400,
+    "height": 1281,
+    "alpha": true
+  },
+  {
+    "file": "01-full-logo/tba-full-transparent-800w.png",
+    "width": 800,
+    "height": 427,
+    "alpha": true
+  },
+  {
+    "file": "02-flag-symbol/tba-flag-transparent-1024w.png",
+    "width": 1024,
+    "height": 542,
+    "alpha": true
+  },
+  {
+    "file": "02-flag-symbol/tba-flag-transparent-2048w.png",
+    "width": 2048,
+    "height": 1084,
+    "alpha": true
+  },
+  {
+    "file": "02-flag-symbol/tba-flag-transparent-512w.png",
+    "width": 512,
+    "height": 271,
+    "alpha": true
+  },
+  {
+    "file": "03-wordmark/tba-wordmark-tagline-transparent-1200w.png",
+    "width": 1200,
+    "height": 202,
+    "alpha": true
+  },
+  {
+    "file": "03-wordmark/tba-wordmark-tagline-transparent-2400w.png",
+    "width": 2400,
+    "height": 405,
+    "alpha": true
+  },
+  {
+    "file": "03-wordmark/tba-wordmark-transparent-1200w.png",
+    "width": 1200,
+    "height": 143,
+    "alpha": true
+  },
+  {
+    "file": "03-wordmark/tba-wordmark-transparent-2400w.png",
+    "width": 2400,
+    "height": 287,
+    "alpha": true
+  },
+  {
+    "file": "04-horizontal/tba-horizontal-cream-1200w.png",
+    "width": 1200,
+    "height": 227,
+    "alpha": false
+  },
+  {
+    "file": "04-horizontal/tba-horizontal-cream-2400w.png",
+    "width": 2400,
+    "height": 454,
+    "alpha": false
+  },
+  {
+    "file": "04-horizontal/tba-horizontal-transparent-1200w.png",
+    "width": 1200,
+    "height": 227,
+    "alpha": true
+  },
+  {
+    "file": "04-horizontal/tba-horizontal-transparent-2400w.png",
+    "width": 2400,
+    "height": 454,
+    "alpha": true
+  },
+  {
+    "file": "05-dark-background/tba-full-on-navy-1600w.png",
+    "width": 1600,
+    "height": 854,
+    "alpha": false
+  },
+  {
+    "file": "05-dark-background/tba-full-on-navy-2400w.png",
+    "width": 2400,
+    "height": 1281,
+    "alpha": false
+  },
+  {
+    "file": "05-dark-background/tba-full-reversed-transparent-1600w.png",
+    "width": 1600,
+    "height": 854,
+    "alpha": true
+  },
+  {
+    "file": "05-dark-background/tba-full-reversed-transparent-2400w.png",
+    "width": 2400,
+    "height": 1281,
+    "alpha": true
+  },
+  {
+    "file": "06-social/tba-avatar-cream-1024.png",
+    "width": 1024,
+    "height": 1024,
+    "alpha": true
+  },
+  {
+    "file": "06-social/tba-avatar-cream-512.png",
+    "width": 512,
+    "height": 512,
+    "alpha": true
+  },
+  {
+    "file": "06-social/tba-avatar-transparent-1024.png",
+    "width": 1024,
+    "height": 1024,
+    "alpha": true
+  },
+  {
+    "file": "06-social/tba-avatar-transparent-512.png",
+    "width": 512,
+    "height": 512,
+    "alpha": true
+  },
+  {
+    "file": "07-favicons/tba-icon-16.png",
+    "width": 16,
+    "height": 16,
+    "alpha": true
+  },
+  {
+    "file": "07-favicons/tba-icon-180.png",
+    "width": 180,
+    "height": 180,
+    "alpha": true
+  },
+  {
+    "file": "07-favicons/tba-icon-192.png",
+    "width": 192,
+    "height": 192,
+    "alpha": true
+  },
+  {
+    "file": "07-favicons/tba-icon-32.png",
+    "width": 32,
+    "height": 32,
+    "alpha": true
+  },
+  {
+    "file": "07-favicons/tba-icon-48.png",
+    "width": 48,
+    "height": 48,
+    "alpha": true
+  },
+  {
+    "file": "07-favicons/tba-icon-512.png",
+    "width": 512,
+    "height": 512,
+    "alpha": true
+  },
+  {
+    "file": "07-favicons/tba-icon-64.png",
+    "width": 64,
+    "height": 64,
+    "alpha": true
+  },
+  {
+    "file": "08-masters/tba-flag-transparent-4096w-upscaled.png",
+    "width": 4096,
+    "height": 2168,
+    "alpha": true
+  },
+  {
+    "file": "08-masters/tba-full-cream-4096w-upscaled.png",
+    "width": 4096,
+    "height": 2186,
+    "alpha": false
+  },
+  {
+    "file": "08-masters/tba-full-reversed-transparent-4096w-upscaled.png",
+    "width": 4096,
+    "height": 2186,
+    "alpha": true
+  },
+  {
+    "file": "08-masters/tba-full-transparent-4096w-upscaled.png",
+    "width": 4096,
+    "height": 2186,
+    "alpha": true
+  },
+  {
+    "file": "08-masters/tba-full-transparent-native.png",
+    "width": 1428,
+    "height": 762,
+    "alpha": true
+  },
+  {
+    "file": "08-masters/tba-horizontal-transparent-4096w-upscaled.png",
+    "width": 4096,
+    "height": 774,
+    "alpha": true
+  },
+  {
+    "file": "08-masters/tba-wordmark-transparent-4096w-upscaled.png",
+    "width": 4096,
+    "height": 489,
+    "alpha": true
+  },
+  {
+    "file": "09-source/tba-conversation-source.png",
+    "width": 1536,
+    "height": 1024,
+    "alpha": false
+  }
+]

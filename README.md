@@ -84,3 +84,7 @@ Additional local placeholder photography (no endorsement implied):
 - `campus.jpg`: Allan Lee, Operation Welcome Home parade (illustrative community gathering, not a Take Back America event) — https://www.pexels.com/photo/people-gathering-on-street-for-a-parade-9483730/
 - `essay.jpg`: Atlantic Ambience — https://www.pexels.com/photo/unrecognizable-person-with-american-flag-7911934/
 - Licenses: https://unsplash.com/license and https://www.pexels.com/license/
+
+## Active branding
+
+The header, hero, footer, and browser icons now use the owner-supplied media package. The original ZIP and asset documentation are preserved in `brand/`; see `brand/README.md` for the exact source-to-website mapping. Earlier logo concepts are archived in `brand/logo-workshop/` and are no longer served by the website.
