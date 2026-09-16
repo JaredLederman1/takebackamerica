@@ -617,6 +617,7 @@ p {
 }
 .newsletter-title {
   position: relative;
+  text-align: center;
 }
 .newsletter-title:after {
   content: "";
@@ -831,9 +832,10 @@ p {
   text-align: center;
 }
 .page-intro h1 {
-  font-family: var(--display);
-  font-size: clamp(42px, 6vw, 75px);
+  font-family: var(--serif);
+  font-size: clamp(38px, 4.5vw, 62px);
   line-height: 1.05;
+  letter-spacing: -0.04em;
   color: var(--navy);
   margin: 15px 0;
 }
@@ -1026,9 +1028,10 @@ p {
   padding-block: 80px;
 }
 .info-page h1 {
-  font-family: var(--display);
-  font-size: clamp(45px, 6vw, 75px);
-  line-height: 1.05;
+  font-family: var(--serif);
+  font-size: clamp(38px, 4.5vw, 62px);
+  line-height: 1.08;
+  letter-spacing: -0.04em;
   color: var(--navy);
   margin: 20px 0 25px;
 }

@@ -38,6 +38,8 @@ export default function ArticleCard({
         </h3>
         <p>{article.excerpt}</p>
         <div className="meta">
+          <span>By {article.author}</span>
+          <span>·</span>
           {formatDate(article.date)}
           <span>·</span>
           {article.readingTime} min read
