@@ -5,15 +5,20 @@ export default function Footer() {
   return (
     <footer className="footer">
       <div className="container footer-top">
-        <Logo reversed />
+        <Logo />
         <nav aria-label="Footer navigation">
-          {["Articles", "Videos", "Podcast", "Events", "About", "Contact"].map(
-            (label) => (
-              <Link key={label} href={"/" + label.toLowerCase()}>
+          {[
+            ["Articles", "/articles"],
+            ["Videos", "/videos"],
+            ["Podcast", "/podcast"],
+            ["Events", "/events"],
+            ["Our Mission", "/about"],
+            ["Contact", "/contact"],
+          ].map(([label, href]) => (
+              <Link key={href} href={href}>
                 {label}
               </Link>
-            ),
-          )}
+            ))}
         </nav>
         <div className="social-icons" aria-label="Social channels coming soon">
           <span title="X — coming soon" aria-label="X — coming soon" role="img">
@@ -49,7 +54,7 @@ export default function Footer() {
         <span>
           © {new Date().getFullYear()} Take Back America. All rights reserved.
         </span>
-        <strong>A STRONGER TOMORROW IS A CHOICE.</strong>
+        <strong>Build a Future Worth Inheriting</strong>
       </div>
     </footer>
   );

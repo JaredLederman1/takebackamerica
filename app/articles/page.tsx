@@ -11,13 +11,9 @@ export default function Articles() {
   return (
     <div className="container">
       <div className="page-intro">
-        <span className="eyebrow red">IDEAS. PERSPECTIVES. POSSIBILITY.</span>
-        <h1>
-          THE LATEST<span className="red">.</span>
-        </h1>
-        <p>
-          Ideas worth reading. Questions worth asking. A conversation about what
-          comes next.
+        <h1>Articles</h1>
+        <p className="articles-subtitle">
+          Read closely, engage honestly, and share the ideas worth carrying forward.
         </p>
       </div>
       <ArticleGrid

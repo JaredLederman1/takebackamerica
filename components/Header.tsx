@@ -1,18 +1,25 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useRef, useState } from "react";
-import { Menu, X, Search } from "lucide-react";
+import { useRef, useState, useSyncExternalStore } from "react";
+import { Menu, X } from "lucide-react";
 import Logo from "./Logo";
 const links = [
   ["Articles", "/articles"],
   ["Videos", "/videos"],
   ["Podcast", "/podcast"],
   ["Events", "/events"],
-  ["About", "/about"],
-  ["Get Involved", "/get-involved"],
+  ["Our Mission", "/about"],
 ];
+function subscribeToScroll(onChange: () => void) {
+  window.addEventListener("scroll", onChange, { passive: true });
+  return () => window.removeEventListener("scroll", onChange);
+}
+const getScrolled = () => window.scrollY > 20;
+const getServerScrolled = () => false;
+
 export default function Header() {
+  const scrolled = useSyncExternalStore(subscribeToScroll, getScrolled, getServerScrolled);
   const pathname = usePathname();
   const [menuPath, setMenuPath] = useState<string | null>(null);
   const open = menuPath === pathname;
@@ -23,7 +30,7 @@ export default function Header() {
   }
   return (
     <header
-      className={`header ${pathname === "/" ? "header-home" : ""} ${open ? "menu-open" : ""}`}
+      className={`header ${pathname === "/" ? "header-home" : ""} ${open ? "menu-open" : ""} ${scrolled ? "header-scrolled" : ""}`}
       onKeyDown={(e) => {
         if (e.key === "Escape") close();
       }}
@@ -42,13 +49,6 @@ export default function Header() {
           ))}
         </nav>
         <div className="header-actions">
-          <Link
-            href="/articles#search"
-            className="search-link"
-            aria-label="Search articles"
-          >
-            <Search size={23} />
-          </Link>
           <Link href="/support" className="button donate-link">
             Donate
           </Link>
@@ -82,9 +82,6 @@ export default function Header() {
               {label}
             </Link>
           ))}
-          <Link href="/articles#search" onClick={() => setMenuPath(null)}>
-            Search articles
-          </Link>
           <Link href="/support" onClick={() => setMenuPath(null)}>
             Donate
           </Link>

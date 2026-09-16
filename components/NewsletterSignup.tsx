@@ -11,7 +11,6 @@ export default function NewsletterSignup() {
     <section className="newsletter" id="newsletter">
       <div className="container newsletter-inner">
         <div className="newsletter-title">
-          <span className="spaced-label">STAY INFORMED</span>
           <h2>
             Join Thousands Building
             <br />a Stronger America

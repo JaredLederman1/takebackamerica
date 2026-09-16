@@ -51,13 +51,15 @@ Import this GitHub repository into Vercel and select the Next.js framework prese
 
 ## Current scope
 
-Article index, client-side search, static MDX routes, related articles, and copy-link sharing work. About is a published mission page. Videos, podcast, events, support, contact, and involvement have explicit coming-soon pages. No payment data is collected.
+Article index, client-side search, static MDX routes, related articles, and copy-link sharing work. Our Mission is a published page. Videos, podcast, events, support, and contact have explicit coming-soon pages. No payment data is collected.
 
 The newsletter form validates an email and shows an honest local preview response; it does **not** store or transmit emails. Integrate an email provider through a server-side route before enabling actual subscriptions, keep provider credentials server-side, and add consent, rate limiting, and provider-error handling as appropriate. Do not change the success copy to claim a subscription until the provider confirms it.
 
-Sample articles are explicitly labeled on their reading pages and should be replaced or approved before launch. The requested “Join Thousands” headline is supplied brand copy, not a verified subscriber count; confirm that claim or revise it before launch.
+No articles are currently published. Reintroduce the article-detail route alongside the first MDX article before publishing it. The requested “Join Thousands” headline is supplied brand copy, not a verified subscriber count; confirm that claim or revise it before launch.
 
 ## Photos
+
+The homepage hero, `dc-blue-sky.png`, is an AI-generated illustrative D.C. panorama. Generation details and the prompt are recorded in `brand/dc-landscape-generation.md`.
 
 Photos are stored locally for reliable loading and served through Next Image optimization. All are used as illustrative placeholders; pictured people do not endorse the platform. Replace the group photo with owned event photography when available.
 
@@ -72,7 +74,7 @@ Typography uses local system font stacks (Impact/Arial Narrow, Georgia, Arial) w
 
 The homepage follows the supplied September 2026 mockup: integrated hero header, striped typographic wordmark, six-item platform strip, four image-overlay featured cards, monument/event split, compact signup, landscape banner, and dark footer. Article cards use the MDX content system; podcast and video cards lead to clearly marked coming-soon pages. Social icons are labeled placeholders until official profiles are supplied.
 
-`getFeaturedArticles()` provides newest-first featured content. The first essay and another featured article fill the two working homepage article slots. The `sample: true` field is optional and labels the three sample articles; omit it for approved articles.
+`getFeaturedArticles()` provides newest-first featured content for the homepage when articles are published.
 
 Additional local placeholder photography (no endorsement implied):
 

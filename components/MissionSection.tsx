@@ -13,17 +13,12 @@ export default function MissionSection() {
         />
         <div className="mission-copy">
           <span className="spaced-label">OUR MISSION</span>
-          <h2>
-            A HIGHER
-            <br />
-            STANDARD
-          </h2>
+          <h2>A STRONGER TOMORROW</h2>
           <div className="brush-rule" />
           <p>
-            We believe in a stronger people, a stronger culture, and a stronger
-            America. Through ideas, media, and action, we&apos;re building a
-            generation that chooses responsibility over comfort, excellence over
-            complacency, and a brighter future over decline.
+            Take Back America began with a simple idea: the country we inherit
+            will not remain strong unless we are willing to defend, build, and
+            improve it.
           </p>
           <Link href="/about" className="button outline-button">
             About our mission <ArrowRight size={17} />

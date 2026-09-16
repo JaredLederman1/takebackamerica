@@ -4,7 +4,6 @@ import {
   CirclePlay,
   Mic,
   CalendarDays,
-  Users,
   Heart,
 } from "lucide-react";
 const platforms = [
@@ -31,12 +30,6 @@ const platforms = [
     href: "/events",
     Icon: CalendarDays,
     lines: ["On campuses.", "In communities."],
-  },
-  {
-    label: "Get Involved",
-    href: "/get-involved",
-    Icon: Users,
-    lines: ["Be part of it."],
   },
   {
     label: "Donate",

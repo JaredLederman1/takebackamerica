@@ -2,21 +2,9 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import { getAllArticles, getArticleBySlug } from "../lib/articles";
-test("sample articles are complete, sorted and retrievable", () => {
+test("an empty article directory returns no articles", () => {
   const articles = getAllArticles();
-  assert.ok(articles.length >= 3);
-  assert.deepEqual(
-    articles.map((a) => a.date),
-    articles
-      .map((a) => a.date)
-      .sort()
-      .reverse(),
-  );
-  for (const a of articles) {
-    assert.equal(getArticleBySlug(a.slug)?.title, a.title);
-    assert.ok(a.content.length > 100);
-    assert.ok(a.readingTime > 0);
-  }
+  assert.deepEqual(articles, []);
   assert.equal(getArticleBySlug("../no-such-article"), undefined);
 });
 test("new files are discovered automatically and duplicate slugs fail clearly", () => {
@@ -31,10 +19,15 @@ test("new files are discovered automatically and duplicate slugs fail clearly", 
       file,
       fs
         .readFileSync(file, "utf8")
-        .replace("publishing-test", "competence-not-complacency"),
+        .replace("publishing-test", "publishing-test-duplicate"),
+    );
+    fs.writeFileSync(
+      "content/articles/test-publishing-duplicate.mdx",
+      fs.readFileSync(file, "utf8"),
     );
     assert.throws(() => getAllArticles(), /unique/);
   } finally {
     fs.rmSync(file, { force: true });
+    fs.rmSync("content/articles/test-publishing-duplicate.mdx", { force: true });
   }
 });

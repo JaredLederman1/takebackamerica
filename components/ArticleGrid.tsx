@@ -5,6 +5,14 @@ import type { Article } from "@/lib/articles";
 export default function ArticleGrid({ articles }: { articles: Article[] }) {
   const [query, setQuery] = useState("");
   const [term, setTerm] = useState("");
+  if (articles.length === 0) {
+    return (
+      <div className="empty-results">
+        <h2>Articles coming soon.</h2>
+        <p>Check back soon for the latest from Take Back America.</p>
+      </div>
+    );
+  }
   const filtered = articles.filter((a) =>
     `${a.title} ${a.excerpt} ${a.category}`
       .toLowerCase()
