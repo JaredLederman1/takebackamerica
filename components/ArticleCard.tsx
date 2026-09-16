@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Article } from "@/lib/articles";
 import { formatDate } from "@/lib/format";
+import { assetPath } from "@/lib/paths";
 export default function ArticleCard({
   article,
   large = false,
@@ -19,7 +20,7 @@ export default function ArticleCard({
           aria-hidden="true"
         >
           <Image
-            src={article.image}
+            src={assetPath(article.image)}
             alt=""
             fill
             sizes={

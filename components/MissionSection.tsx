@@ -1,12 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { assetPath } from "@/lib/paths";
 export default function MissionSection() {
   return (
     <section className="mission" id="mission">
       <div className="mission-panel">
         <Image
-          src="/images/monument.jpg"
+          src={assetPath("/images/monument.jpg")}
           alt="Classical monumental sculpture"
           fill
           sizes="(max-width: 760px) 100vw, 54vw"
@@ -28,7 +29,7 @@ export default function MissionSection() {
       <div className="community-panel">
         <div className="community-image">
           <Image
-            src="/images/campus.jpg"
+            src={assetPath("/images/campus.jpg")}
             alt="An outdoor gathering with an American flag"
             fill
             sizes="(max-width: 760px) 55vw, 25vw"
