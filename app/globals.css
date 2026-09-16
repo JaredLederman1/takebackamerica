@@ -938,6 +938,48 @@ p {
 .article-prose p {
   margin-bottom: 1.35em;
 }
+.author-profile {
+  max-width: 720px;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  padding: 36px 0 80px;
+  border-top: 1px solid var(--line);
+}
+.author-profile img {
+  width: 130px;
+  height: 130px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center 36%;
+}
+.author-profile h2 {
+  margin: 8px 0;
+  font-family: var(--serif);
+  font-size: 28px;
+}
+.author-profile p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.55;
+}
+.photo-credit {
+  margin: 42px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+}
+@media (max-width: 600px) {
+  .author-profile {
+    align-items: flex-start;
+    gap: 18px;
+    padding-bottom: 55px;
+  }
+  .author-profile img {
+    width: 88px;
+    height: 88px;
+  }
+}
 .prose p {
   color: #39454c;
   margin-bottom: 24px;
