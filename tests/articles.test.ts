@@ -2,9 +2,10 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import { getAllArticles, getArticleBySlug } from "../lib/articles";
-test("an empty article directory returns no articles", () => {
+test("the published article is retrievable", () => {
   const articles = getAllArticles();
-  assert.deepEqual(articles, []);
+  assert.equal(articles.length, 1);
+  assert.equal(articles[0].slug, "men-and-women-were-not-created-equal");
   assert.equal(getArticleBySlug("../no-such-article"), undefined);
 });
 test("new files are discovered automatically and duplicate slugs fail clearly", () => {
@@ -14,7 +15,9 @@ test("new files are discovered automatically and duplicate slugs fail clearly", 
       file,
       '---\ntitle: "Publishing test"\nslug: "publishing-test"\nexcerpt: "Test"\ndate: "2026-09-11"\nauthor: "Editor"\ncategory: "Test"\nimage: "/images/hero.jpg"\nfeatured: false\n---\nTest content.',
     );
-    assert.equal(getAllArticles()[0].slug, "publishing-test");
+    assert.ok(
+      getAllArticles().some((article) => article.slug === "publishing-test"),
+    );
     fs.writeFileSync(
       file,
       fs

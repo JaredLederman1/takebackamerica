@@ -9,7 +9,7 @@ export type Article = {
   date: string;
   author: string;
   category: string;
-  image: string;
+  image?: string;
   featured: boolean;
   sample?: boolean;
   content: string;
@@ -31,7 +31,6 @@ export function getAllArticles(): Article[] {
         "date",
         "author",
         "category",
-        "image",
       ]) {
         if (typeof data[key] !== "string" || !data[key].trim())
           throw new Error(
@@ -48,9 +47,11 @@ export function getAllArticles(): Article[] {
       if (typeof data.featured !== "boolean")
         throw new Error(`${file}: featured must be true or false`);
       if (
-        !data.image.startsWith("/images/") ||
-        data.image.includes("..") ||
-        !fs.existsSync(path.join(process.cwd(), "public", data.image))
+        data.image !== undefined &&
+        (typeof data.image !== "string" ||
+          !data.image.startsWith("/images/") ||
+          data.image.includes("..") ||
+          !fs.existsSync(path.join(process.cwd(), "public", data.image)))
       )
         throw new Error(`${file}: image must exist in public/images`);
       return {
