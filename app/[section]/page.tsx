@@ -140,7 +140,6 @@ export default async function Section({
   return (
     <>
       <section className="container info-page">
-        <span className="eyebrow red">{page.eyebrow}</span>
         <h1>{page.title}</h1>
         {page.soon && <span className="status-label">Coming soon</span>}
         <p className="article-deck">{page.copy}</p>

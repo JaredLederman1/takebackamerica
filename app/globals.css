@@ -889,8 +889,69 @@ p {
   color: var(--navy);
   margin: 18px 0 22px;
 }
+.article-heading {
+  text-align: center;
+}
+.article-heading .article-deck,
+.info-page .article-deck {
+  margin-inline: auto;
+  font-style: italic;
+}
 .article-heading-no-image {
   padding-bottom: 22px;
+}
+.article-feature-header {
+  max-width: 1100px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(380px, 1.1fr);
+  align-items: stretch;
+  padding: 105px 0 72px;
+  text-align: left;
+}
+.article-feature-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 40px 8% 40px 0;
+}
+.article-feature-header h1 {
+  font-size: clamp(44px, 5.2vw, 76px);
+}
+.article-feature-header .article-deck {
+  margin: 12px 0 30px;
+  font-size: clamp(21px, 2vw, 29px);
+}
+.article-feature-image {
+  position: relative;
+  min-height: 570px;
+  overflow: hidden;
+}
+.article-feature-image img {
+  object-fit: cover;
+}
+.article-feature-byline {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  font-size: 14px;
+}
+.article-feature-byline img {
+  border-radius: 50%;
+  object-fit: cover;
+}
+.article-feature-byline time {
+  display: block;
+  margin-top: 4px;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.article-feature-byline i {
+  display: block;
+  width: 34px;
+  height: 2px;
+  margin-top: 8px;
+  background: var(--red);
 }
 .article-deck {
   font-family: var(--serif);
@@ -940,6 +1001,15 @@ p {
 .article-prose p {
   margin-bottom: 1.35em;
 }
+.article-prose > p:first-child::first-letter {
+  float: left;
+  margin: 0.04em 0.12em 0 0;
+  color: var(--red);
+  font-family: var(--serif);
+  font-size: 4.3em;
+  font-weight: 700;
+  line-height: 0.72;
+}
 .author-profile {
   max-width: 720px;
   display: flex;
@@ -972,6 +1042,16 @@ p {
   font-size: 12px;
 }
 @media (max-width: 600px) {
+  .article-feature-header {
+    display: block;
+    padding: 48px 0 38px;
+  }
+  .article-feature-copy {
+    padding: 0 0 28px;
+  }
+  .article-feature-image {
+    min-height: 400px;
+  }
   .author-profile {
     align-items: flex-start;
     gap: 18px;
@@ -1034,6 +1114,7 @@ p {
   letter-spacing: -0.04em;
   color: var(--navy);
   margin: 20px 0 25px;
+  text-align: center;
 }
 .info-page p {
   max-width: 670px;

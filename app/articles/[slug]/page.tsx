@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
-import { getAllArticles, getArticleBySlug } from "@/lib/articles";
+import { formatDate, getAllArticles, getArticleBySlug } from "@/lib/articles";
 import { assetPath } from "@/lib/paths";
 
 export const dynamicParams = false;
@@ -28,21 +28,36 @@ export default async function ArticlePage({ params }: Props) {
   if (!article) notFound();
   return (
     <article>
-      <header className="container article-heading article-heading-no-image">
-        <h1>{article.title}</h1>
-        <p className="article-deck">{article.excerpt}</p>
-      </header>
-      {article.image && (
-        <div className="container article-cover">
+      <header className="container article-heading article-feature-header">
+        <div className="article-feature-copy">
+          <h1>{article.title}</h1>
+          <p className="article-deck">{article.excerpt}</p>
+          <div className="article-feature-byline">
+            <Image
+              src={assetPath("/images/jared-lederman.png")}
+              alt="Jared Lederman"
+              width={64}
+              height={64}
+            />
+            <div>
+              <span>By {article.author}</span>
+              <time dateTime={article.date}>{formatDate(article.date)}</time>
+              <i aria-hidden="true" />
+            </div>
+          </div>
+        </div>
+        {article.image && (
+          <div className="article-feature-image">
           <Image
             src={assetPath(article.image)}
             alt="Silhouetted couple holding hands at sunset"
             fill
-            sizes="(max-width: 760px) 100vw, 1100px"
+            sizes="(max-width: 760px) 100vw, 50vw"
             priority
           />
-        </div>
-      )}
+          </div>
+        )}
+      </header>
       <div className="container prose article-prose">
         <MDXRemote source={article.content} />
         <p className="photo-credit">Photo by Caleb Ekeroth on Unsplash</p>
