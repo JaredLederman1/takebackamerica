@@ -29,7 +29,7 @@ export default function MissionSection() {
       <div className="community-panel">
         <div className="community-image">
           <Image
-            src={assetPath("/images/campus.jpg")}
+            src={assetPath("/images/campus-american-flag.png")}
             alt="An outdoor gathering with an American flag"
             fill
             sizes="(max-width: 760px) 55vw, 25vw"
