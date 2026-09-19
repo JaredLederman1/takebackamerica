@@ -164,7 +164,6 @@ p {
 .header {
   position: relative;
   z-index: 30;
-  border-bottom: 1px solid var(--line);
   background: var(--cream);
 }
 .header-home {
@@ -665,6 +664,11 @@ p {
   font-size: 10px;
   color: #657078;
 }
+.form-error {
+  margin: 10px 0 0;
+  color: var(--red);
+  font-size: 13px;
+}
 .signup-success {
   display: flex;
   gap: 12px;
@@ -1151,6 +1155,87 @@ p {
   color: var(--navy);
   font-weight: 700;
   margin-bottom: 15px;
+}
+.support-page {
+  max-width: 720px;
+}
+.support-page > p,
+.contribution-success > p {
+  margin-inline: auto;
+  text-align: center;
+}
+.donation-form {
+  max-width: 520px;
+  margin: 38px auto 0;
+  padding: 28px;
+  border: 1px solid var(--line);
+  background: #ffffff8c;
+}
+.donation-form fieldset {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.donation-form legend {
+  margin-bottom: 14px;
+  color: var(--navy);
+  font-family: var(--serif);
+  font-size: 22px;
+}
+.donation-amounts {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 22px;
+}
+.donation-amounts button {
+  min-height: 46px;
+  border: 1px solid var(--line);
+  background: var(--white);
+  color: var(--navy);
+  font-weight: 700;
+}
+.donation-amounts button.selected,
+.donation-amounts button:hover {
+  border-color: var(--red);
+  background: var(--red);
+  color: var(--white);
+}
+.donation-form label {
+  display: block;
+  margin-bottom: 7px;
+  color: var(--navy);
+  font-size: 13px;
+  font-weight: 700;
+}
+.custom-amount {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--line);
+  background: var(--white);
+}
+.custom-amount span {
+  padding-left: 15px;
+  color: var(--muted);
+}
+.custom-amount input {
+  width: 100%;
+  border: 0;
+  padding: 12px 15px 12px 7px;
+  outline: 0;
+}
+.donation-form .button {
+  width: 100%;
+  margin-top: 24px;
+}
+.donation-note {
+  margin: 12px 0 0;
+  font-size: 12px !important;
+  line-height: 1.45;
+  text-align: center;
+}
+.contribution-success {
+  text-align: center;
 }
 @media (min-width: 1700px) {
   .hero-content {

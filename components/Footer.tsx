@@ -6,20 +6,6 @@ export default function Footer() {
     <footer className="footer">
       <div className="container footer-top">
         <Logo />
-        <nav aria-label="Footer navigation">
-          {[
-            ["Articles", "/articles"],
-            ["Videos", "/videos"],
-            ["Podcast", "/podcast"],
-            ["Events", "/events"],
-            ["Our Mission", "/about"],
-            ["Contact", "/contact"],
-          ].map(([label, href]) => (
-              <Link key={href} href={href}>
-                {label}
-              </Link>
-            ))}
-        </nav>
         <div className="social-icons" aria-label="Social channels coming soon">
           <span title="X — coming soon" aria-label="X — coming soon" role="img">
             𝕏

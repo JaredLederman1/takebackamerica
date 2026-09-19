@@ -2,10 +2,28 @@
 import { useState, type FormEvent } from "react";
 import { Check } from "lucide-react";
 export default function NewsletterSignup() {
-  const [done, setDone] = useState(false);
-  function submit(event: FormEvent<HTMLFormElement>) {
+  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">(
+    "idle",
+  );
+  async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setDone(true);
+    const form = event.currentTarget;
+    const email = new FormData(form).get("email");
+    if (typeof email !== "string") return;
+
+    setStatus("submitting");
+    try {
+      const response = await fetch("/api/newsletter", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      if (!response.ok) throw new Error("Newsletter signup failed");
+      setStatus("success");
+      form.reset();
+    } catch {
+      setStatus("error");
+    }
   }
   return (
     <section className="newsletter" id="newsletter">
@@ -17,16 +35,13 @@ export default function NewsletterSignup() {
           </h2>
         </div>
         <div className="signup-area">
-          {done ? (
+          {status === "success" ? (
             <div className="signup-success" role="status">
               <Check size={24} />
               <div>
                 <strong>Thanks for raising your hand.</strong>
-                <p>
-                  This is a signup preview. Your email has not been stored or
-                  subscribed.
-                </p>
-                <button className="text-button" onClick={() => setDone(false)}>
+                <p>You&apos;re on the list.</p>
+                <button className="text-button" onClick={() => setStatus("idle")}>
                   Back to signup
                 </button>
               </div>
@@ -47,14 +62,16 @@ export default function NewsletterSignup() {
                   maxLength={254}
                   aria-describedby="signup-note"
                 />
-                <button className="button" type="submit">
-                  Join now
+                <button className="button" type="submit" disabled={status === "submitting"}>
+                  {status === "submitting" ? "Joining..." : "Join now"}
                 </button>
               </div>
               <p className="form-note" id="signup-note">
                 Get the latest articles, videos, and event updates.
-                <span>Signup preview · Subscriptions coming soon.</span>
               </p>
+              {status === "error" && (
+                <p className="form-error" role="alert">We couldn&apos;t add you right now. Please try again.</p>
+              )}
             </form>
           )}
         </div>

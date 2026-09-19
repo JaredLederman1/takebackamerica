@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import NewsletterSignup from "@/components/NewsletterSignup";
 import Logo from "@/components/Logo";
+import DonationCheckout from "@/components/DonationCheckout";
 const sections: Record<
   string,
   {
@@ -50,8 +51,8 @@ const sections: Record<
     eyebrow: "SUPPORT THE MISSION",
     copy: "Good ideas deserve a place to grow.",
     detail:
-      "Our donation program is not open yet, and this website does not collect payments. For now, you can support the conversation by reading and sharing our articles.",
-    soon: true,
+      "Your contribution supports Take Back America’s media work and the public conversation it makes possible.",
+    soon: false,
   },
   contact: {
     title: "STAY IN THE CONVERSATION.",
@@ -132,6 +133,20 @@ export default async function Section({
               The future belongs to all of us. It is time to act like it.
             </p>
           </div>
+        </section>
+        <NewsletterSignup />
+      </>
+    );
+  }
+  if (section === "support") {
+    return (
+      <>
+        <section className="container info-page support-page">
+          <p className="eyebrow">{page.eyebrow}</p>
+          <h1>{page.title}</h1>
+          <p className="article-deck">{page.copy}</p>
+          <p>{page.detail}</p>
+          <DonationCheckout />
         </section>
         <NewsletterSignup />
       </>
