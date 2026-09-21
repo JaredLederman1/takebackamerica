@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CalendarDays, Headphones, Play } from "lucide-react";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import NewsletterSignup from "@/components/NewsletterSignup";
@@ -63,6 +64,21 @@ const sections: Record<
     soon: true,
   },
 };
+
+const verticalPages = {
+  videos: {
+    icon: Play,
+    action: "Join the discussion",
+  },
+  podcast: {
+    icon: Headphones,
+    action: "Join the discussion",
+  },
+  events: {
+    icon: CalendarDays,
+    action: "Join the discussion",
+  },
+} as const;
 export const dynamicParams = false;
 export function generateStaticParams() {
   return Object.keys(sections).map((section) => ({ section }));
@@ -147,6 +163,31 @@ export default async function Section({
           <p className="article-deck">{page.copy}</p>
           <p>{page.detail}</p>
           <DonationCheckout />
+        </section>
+        <NewsletterSignup />
+      </>
+    );
+  }
+  if (section in verticalPages) {
+    const verticalPage = verticalPages[section as keyof typeof verticalPages];
+    const Icon = verticalPage.icon;
+    return (
+      <>
+        <section className="vertical-page" aria-labelledby={`${section}-title`}>
+          <div className="vertical-page-content">
+            <div className="vertical-page-icon" aria-hidden="true">
+              <Icon size={28} strokeWidth={1.5} />
+            </div>
+            <p className="eyebrow">{page.eyebrow}</p>
+            <span className="status-label">Coming soon</span>
+            <h1 id={`${section}-title`}>{page.title}</h1>
+            <p className="vertical-page-deck">{page.copy}</p>
+            <div className="vertical-page-rule" aria-hidden="true" />
+            <p className="vertical-page-detail">{page.detail}</p>
+            <Link className="button outline-button" href="/join">
+              {verticalPage.action} <span aria-hidden="true">↗</span>
+            </Link>
+          </div>
         </section>
         <NewsletterSignup />
       </>

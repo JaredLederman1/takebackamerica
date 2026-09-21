@@ -1,7 +1,7 @@
 "use client";
 import { useState, type FormEvent } from "react";
 import { Check } from "lucide-react";
-export default function NewsletterSignup() {
+export default function NewsletterSignup({ standalone = false }: { standalone?: boolean }) {
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">(
     "idle",
   );
@@ -26,7 +26,7 @@ export default function NewsletterSignup() {
     }
   }
   return (
-    <section className="newsletter" id="newsletter">
+    <section className={`newsletter ${standalone ? "newsletter-standalone" : ""}`} id="newsletter">
       <div className="container newsletter-inner">
         <div className="newsletter-title">
           <h2>

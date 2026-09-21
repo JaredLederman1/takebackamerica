@@ -53,7 +53,7 @@ export default function Header() {
             Donate
           </Link>
           <Link
-            href="/#newsletter"
+            href="/join"
             className="button join-link"
             onClick={() => setMenuPath(null)}
           >
