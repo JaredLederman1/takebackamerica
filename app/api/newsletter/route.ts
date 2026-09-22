@@ -29,7 +29,14 @@ export async function POST(request: Request) {
       body: form,
       cache: "no-store",
     });
-    if (!response.ok) return Response.json({ error: "Newsletter signup failed." }, { status: 502 });
+    const responseBody = await response.text();
+    const providerReportedError = /problem in optin|unknown error occurred|error occured/i.test(
+      responseBody,
+    );
+
+    if (!response.ok || providerReportedError) {
+      return Response.json({ error: "Newsletter signup failed." }, { status: 502 });
+    }
   } catch {
     return Response.json({ error: "Newsletter signup failed." }, { status: 502 });
   }

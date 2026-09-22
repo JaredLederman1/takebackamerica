@@ -53,7 +53,7 @@ Import this GitHub repository into Vercel and select the Next.js framework prese
 
 Article index, client-side search, static MDX routes, related articles, and copy-link sharing work. Our Mission is a published page. Videos, podcast, events, support, and contact have explicit coming-soon pages. No payment data is collected.
 
-The newsletter form validates an email and shows an honest local preview response; it does **not** store or transmit emails. Integrate an email provider through a server-side route before enabling actual subscriptions, keep provider credentials server-side, and add consent, rate limiting, and provider-error handling as appropriate. Do not change the success copy to claim a subscription until the provider confirms it.
+The newsletter form submits through a Next.js server route to the configured email provider. It requires a server-capable deployment such as Vercel; static exports cannot serve the `/api/newsletter` endpoint. Keep provider credentials server-side, and add consent and rate limiting as appropriate.
 
 No articles are currently published. Reintroduce the article-detail route alongside the first MDX article before publishing it. The requested “Join Thousands” headline is supplied brand copy, not a verified subscriber count; confirm that claim or revise it before launch.
 
