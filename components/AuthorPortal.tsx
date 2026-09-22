@@ -1,10 +1,16 @@
 "use client";
 /* eslint-disable @next/next/no-img-element -- previews use local data URLs before upload. */
 
-import { useEffect, useMemo, useState, type ChangeEvent, type FormEvent } from "react";
+import { useEffect, useMemo, useState, type ChangeEvent, type FormEvent, type PointerEvent } from "react";
 
 type PortalProps = { authenticated: boolean };
 const DRAFT_KEY = "tba-author-draft-v1";
+type ImagePosition = { x: number; y: number };
+const DEFAULT_IMAGE_POSITION: ImagePosition = { x: 50, y: 50 };
+
+function imageObjectPosition(position: ImagePosition) {
+  return `${position.x}% ${position.y}%`;
+}
 
 function renderPostPreview(post: string) {
   const blocks = post.trim().split(/\n\s*\n/).filter(Boolean);
@@ -30,6 +36,7 @@ export default function AuthorPortal({ authenticated: initiallyAuthenticated }: 
   const [subtitle, setSubtitle] = useState("");
   const [post, setPost] = useState("");
   const [image, setImage] = useState<string | null>(null);
+  const [imagePosition, setImagePosition] = useState<ImagePosition>(DEFAULT_IMAGE_POSITION);
   const [showPreview, setShowPreview] = useState(false);
   const [status, setStatus] = useState<string | null>(null);
   const [draftStatus, setDraftStatus] = useState<string | null>(null);
@@ -41,12 +48,13 @@ export default function AuthorPortal({ authenticated: initiallyAuthenticated }: 
     const savedDraft = window.localStorage.getItem(DRAFT_KEY);
     if (!savedDraft) return;
     try {
-      const draft = JSON.parse(savedDraft) as { title?: string; subtitle?: string; post?: string; image?: string };
+      const draft = JSON.parse(savedDraft) as { title?: string; subtitle?: string; post?: string; image?: string; imagePosition?: ImagePosition };
       const restoreFrame = window.requestAnimationFrame(() => {
         setTitle(draft.title || "");
         setSubtitle(draft.subtitle || "");
         setPost(draft.post || "");
         setImage(draft.image || null);
+        setImagePosition(draft.imagePosition || DEFAULT_IMAGE_POSITION);
         setDraftStatus("Saved draft restored from this browser.");
       });
       return () => window.cancelAnimationFrame(restoreFrame);
@@ -86,7 +94,10 @@ export default function AuthorPortal({ authenticated: initiallyAuthenticated }: 
       return;
     }
     const reader = new FileReader();
-    reader.onload = () => setImage(typeof reader.result === "string" ? reader.result : null);
+    reader.onload = () => {
+      setImage(typeof reader.result === "string" ? reader.result : null);
+      setImagePosition(DEFAULT_IMAGE_POSITION);
+    };
     reader.readAsDataURL(file);
     setStatus(null);
   }
@@ -100,7 +111,7 @@ export default function AuthorPortal({ authenticated: initiallyAuthenticated }: 
         method: "POST",
         credentials: "same-origin",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ title, subtitle, post, image }),
+        body: JSON.stringify({ title, subtitle, post, image, imagePosition }),
       });
       const result = (await response.json()) as { error?: string; slug?: string };
       if (!response.ok) throw new Error(result.error || "Could not publish the article.");
@@ -109,6 +120,7 @@ export default function AuthorPortal({ authenticated: initiallyAuthenticated }: 
       setSubtitle("");
       setPost("");
       setImage(null);
+      setImagePosition(DEFAULT_IMAGE_POSITION);
       setShowPreview(false);
       window.localStorage.removeItem(DRAFT_KEY);
       setDraftStatus(null);
@@ -121,7 +133,7 @@ export default function AuthorPortal({ authenticated: initiallyAuthenticated }: 
 
   function saveDraft() {
     try {
-      window.localStorage.setItem(DRAFT_KEY, JSON.stringify({ title, subtitle, post, image }));
+      window.localStorage.setItem(DRAFT_KEY, JSON.stringify({ title, subtitle, post, image, imagePosition }));
       setDraftStatus("Draft saved to this browser.");
     } catch {
       setDraftStatus("This draft is too large to save in this browser.");
@@ -134,6 +146,7 @@ export default function AuthorPortal({ authenticated: initiallyAuthenticated }: 
     setSubtitle("");
     setPost("");
     setImage(null);
+    setImagePosition(DEFAULT_IMAGE_POSITION);
     setShowPreview(false);
     setDraftStatus("Draft cleared.");
   }
@@ -142,6 +155,14 @@ export default function AuthorPortal({ authenticated: initiallyAuthenticated }: 
     await fetch("/api/author/logout/", { method: "POST", credentials: "same-origin" });
     setAuthenticated(false);
     setStatus(null);
+  }
+
+  function setFocalPoint(event: PointerEvent<HTMLDivElement>) {
+    const bounds = event.currentTarget.getBoundingClientRect();
+    setImagePosition({
+      x: Math.round(Math.min(100, Math.max(0, ((event.clientX - bounds.left) / bounds.width) * 100))),
+      y: Math.round(Math.min(100, Math.max(0, ((event.clientY - bounds.top) / bounds.height) * 100))),
+    });
   }
 
   if (!authenticated) {
@@ -174,7 +195,23 @@ export default function AuthorPortal({ authenticated: initiallyAuthenticated }: 
       </div>
       <form className="author-card author-editor" onSubmit={publish}>
         <label>Feature image<input type="file" accept="image/jpeg,image/png,image/webp" onChange={chooseImage} required={!image} /></label>
-        {image && <img className="author-image-preview" src={image} alt="Selected article cover" />}
+        {image && <>
+          <div
+            className="author-crop-control"
+            onPointerDown={(event) => { event.currentTarget.setPointerCapture(event.pointerId); setFocalPoint(event); }}
+            onPointerMove={(event) => { if (event.currentTarget.hasPointerCapture(event.pointerId)) setFocalPoint(event); }}
+            onPointerUp={(event) => event.currentTarget.releasePointerCapture(event.pointerId)}
+            role="presentation"
+          >
+            <img className="author-image-preview" src={image} alt="Drag to place the article image focal point" style={{ objectPosition: imageObjectPosition(imagePosition) }} />
+            <span className="author-crop-target" style={{ left: `${imagePosition.x}%`, top: `${imagePosition.y}%` }} aria-hidden="true" />
+          </div>
+          <p className="author-crop-help">Drag the target onto the subject you want kept in the article crop.</p>
+          <div className="author-crop-ranges">
+            <label>Horizontal focus<input type="range" min="0" max="100" value={imagePosition.x} onChange={(event) => setImagePosition((current) => ({ ...current, x: Number(event.target.value) }))} /></label>
+            <label>Vertical focus<input type="range" min="0" max="100" value={imagePosition.y} onChange={(event) => setImagePosition((current) => ({ ...current, y: Number(event.target.value) }))} /></label>
+          </div>
+        </>}
         <label>Title<input value={title} onChange={(event) => setTitle(event.target.value)} maxLength={140} required /></label>
         <label>Subtitle<input value={subtitle} onChange={(event) => setSubtitle(event.target.value)} maxLength={280} required /></label>
         <label>Post<textarea value={post} onChange={(event) => setPost(event.target.value)} rows={16} required placeholder="Write in Markdown if you want headings, links, or emphasis." /></label>
@@ -204,7 +241,7 @@ export default function AuthorPortal({ authenticated: initiallyAuthenticated }: 
                 </div>
               </div>
             </div>
-            {previewImage && <div className="article-feature-image"><img src={previewImage} alt="Article cover preview" /></div>}
+            {previewImage && <div className="article-feature-image"><img src={previewImage} alt="Article cover preview" style={{ objectPosition: imageObjectPosition(imagePosition) }} /></div>}
           </header>
           <div className="container prose article-prose">
             {renderPostPreview(post)}

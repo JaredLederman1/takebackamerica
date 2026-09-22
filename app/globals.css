@@ -2108,10 +2108,16 @@ html {scroll-padding-top: 110px;}
 .author-login .button {width: 100%;margin-top: 26px;}
 .author-heading {justify-content: space-between;align-items: flex-end;margin-bottom: 26px;display: flex;}
 .author-heading h1 {margin-bottom: 0;}
-.author-image-preview {object-fit: cover;width: 100%;max-height: 440px;margin-top: 18px;display: block;}
+.author-crop-control {position: relative;overflow: hidden;cursor: crosshair;margin-top: 18px;touch-action: none;}
+.author-image-preview {object-fit: cover;width: 100%;height: 360px;margin: 0;display: block;}
+.author-crop-target {position: absolute;width: 34px;height: 34px;transform: translate(-50%, -50%);border: 2px solid #fff;border-radius: 50%;box-shadow: 0 0 0 2px rgba(9,19,27,.78);pointer-events: none;}
+.author-crop-target:before,.author-crop-target:after {content: "";position: absolute;background: #fff;box-shadow: 0 0 0 1px rgba(9,19,27,.55);}
+.author-crop-target:before {width: 2px;height: 50px;left: 14px;top: -10px;}.author-crop-target:after {height: 2px;width: 50px;left: -10px;top: 14px;}
+.author-crop-help {margin: 12px 0 0;color: var(--muted);font-size: 13px;line-height: 1.45;}
+.author-crop-ranges {display: grid;grid-template-columns: 1fr 1fr;gap: 18px;}.author-crop-ranges label {margin-top: 16px;}.author-crop-ranges input {padding: 0;}
 .author-actions {justify-content: flex-end;gap: 12px;margin-top: 28px;display: flex;}
 .author-success {color: #17633b;background: #e7f4e9;border: 1px solid #8cc9a0;margin: 22px 0 0;padding: 12px 14px;line-height: 1.45;}
 .author-draft-status {color: var(--muted);margin: 16px 0 0;font-size: 13px;}
 .author-preview {background: #fff;border-top: 4px solid var(--red);width: 100vw;margin: 45px 0 0 calc(50% - 50vw);padding: 1px 0;}
 .author-preview .article-feature-image img {object-fit: cover;width: 100%;height: 100%;display: block;}
-@media (max-width: 600px) {.author-page {width: 90%;padding: 55px 0;}.author-heading {align-items: flex-start;gap: 20px;}.author-actions {justify-content: stretch;flex-direction: column-reverse;}.author-actions .button {width: 100%;}}
+@media (max-width: 600px) {.author-page {width: 90%;padding: 55px 0;}.author-heading {align-items: flex-start;gap: 20px;}.author-actions {justify-content: stretch;flex-direction: column-reverse;}.author-actions .button {width: 100%;}.author-image-preview {height: 250px;}.author-crop-ranges {grid-template-columns: 1fr;gap: 0;}}

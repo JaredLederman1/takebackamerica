@@ -10,6 +10,7 @@ export type Article = {
   author: string;
   category: string;
   image?: string;
+  imagePosition?: string;
   featured: boolean;
   sample?: boolean;
   content: string;
@@ -54,6 +55,8 @@ export function getAllArticles(): Article[] {
           !fs.existsSync(path.join(process.cwd(), "public", data.image)))
       )
         throw new Error(`${file}: image must exist in public/images`);
+      if (data.imagePosition !== undefined && (typeof data.imagePosition !== "string" || !/^\d{1,3}% \d{1,3}%$/.test(data.imagePosition)))
+        throw new Error(`${file}: imagePosition must be two percentages`);
       return {
         ...data,
         content,

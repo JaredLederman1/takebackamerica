@@ -23,6 +23,7 @@ export default function ArticleCard({
             src={assetPath(article.image)}
             alt=""
             fill
+            style={{ objectPosition: article.imagePosition || "50% 50%" }}
             sizes={
               large
                 ? "(max-width: 760px) 100vw, 55vw"

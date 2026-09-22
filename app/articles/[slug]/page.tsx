@@ -52,6 +52,7 @@ export default async function ArticlePage({ params }: Props) {
             src={assetPath(article.image)}
             alt="Silhouetted couple holding hands at sunset"
             fill
+            style={{ objectPosition: article.imagePosition || "50% 50%" }}
             sizes="(max-width: 760px) 100vw, 50vw"
             priority
           />

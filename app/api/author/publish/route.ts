@@ -14,6 +14,7 @@ type PublishRequest = {
   subtitle?: unknown;
   post?: unknown;
   image?: unknown;
+  imagePosition?: unknown;
 };
 
 function slugify(title: string) {
@@ -39,6 +40,13 @@ function getImage(image: unknown) {
   const buffer = Buffer.from(match[2], "base64");
   if (!buffer.length || buffer.length > MAX_IMAGE_BYTES) return null;
   return { buffer, extension: IMAGE_TYPES.get(match[1])! };
+}
+
+function getImagePosition(position: unknown) {
+  if (!position || typeof position !== "object") return "50% 50%";
+  const { x, y } = position as { x?: unknown; y?: unknown };
+  if (typeof x !== "number" || typeof y !== "number" || !Number.isFinite(x) || !Number.isFinite(y) || x < 0 || x > 100 || y < 0 || y > 100) return null;
+  return `${Math.round(x)}% ${Math.round(y)}%`;
 }
 
 async function githubRequest(path: string, init: RequestInit) {
@@ -82,8 +90,9 @@ export async function POST(request: Request) {
   }
 
   const image = getImage(body.image);
+  const imagePosition = getImagePosition(body.imagePosition);
   const slug = slugify(body.title);
-  if (!image || !slug) {
+  if (!image || !slug || !imagePosition) {
     return NextResponse.json({ error: "Use a JPG, PNG, or WebP image under 5 MB and a valid title." }, { status: 400 });
   }
 
@@ -113,7 +122,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Could not upload the article image." }, { status: 502 });
   }
 
-  const article = `---\ntitle: ${yaml(body.title.trim())}\nslug: ${yaml(slug)}\nexcerpt: ${yaml(body.subtitle.trim())}\ndate: ${yaml(new Date().toISOString().slice(0, 10))}\nauthor: ${yaml("Jared Lederman")}\ncategory: ${yaml("Commentary")}\nimage: ${yaml(`/images/${imageName}`)}\nfeatured: false\n---\n\n${body.post.trim()}\n`;
+  const article = `---\ntitle: ${yaml(body.title.trim())}\nslug: ${yaml(slug)}\nexcerpt: ${yaml(body.subtitle.trim())}\ndate: ${yaml(new Date().toISOString().slice(0, 10))}\nauthor: ${yaml("Jared Lederman")}\ncategory: ${yaml("Commentary")}\nimage: ${yaml(`/images/${imageName}`)}\nimagePosition: ${yaml(imagePosition)}\nfeatured: false\n---\n\n${body.post.trim()}\n`;
   const articleUpload = await githubRequest(articlePath, {
     method: "PUT",
     body: JSON.stringify({
