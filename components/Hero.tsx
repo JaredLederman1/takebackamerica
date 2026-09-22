@@ -22,8 +22,8 @@ export default function Hero() {
           <Image src={assetPath("/brand/logo-wordmark.png")} alt="Take Back America — A Stronger Tomorrow" width={1200} height={202} loading="eager" sizes="(max-width: 600px) 90vw, 780px" />
         </div>
         <div className="hero-buttons">
-          <Link href="/about" className="button">
-            Learn more <ArrowRight size={18} />
+          <Link href="/articles" className="button">
+            Read the latest <ArrowRight size={18} />
           </Link>
           <a
             href="https://jaredlederman.substack.com/"
