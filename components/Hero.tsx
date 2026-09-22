@@ -27,7 +27,7 @@ export default function Hero() {
           </Link>
           <a
             href="https://jaredlederman.substack.com/"
-            className="button outline-button"
+            className="button substack-button"
             target="_blank"
             rel="noreferrer"
           >
