@@ -2117,14 +2117,23 @@ p {
 /* A full first viewport on phones keeps the next dark section out of view while
    preserving the complete D.C. skyline behind the hero message. */
 @media (max-width: 600px) {
+  html:has(.hero),
+  body:has(.hero) {
+    background: #0b3867 url("/images/dc-blue-sky.png") 58% center / cover no-repeat fixed;
+  }
+
   .hero {
     height: 100vh;
     height: 100svh;
-    height: 100dvh;
+    height: 100lvh;
     min-height: 100vh;
     min-height: 100svh;
-    min-height: 100dvh;
+    min-height: 100lvh;
     padding-bottom: 0;
+  }
+
+  .header-home .header-inner {
+    padding-top: max(15px, env(safe-area-inset-top));
   }
 
   .hero-buttons .substack-button {
