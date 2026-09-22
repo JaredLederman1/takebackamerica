@@ -25,6 +25,14 @@ export default function Hero() {
           <Link href="/about" className="button">
             Learn more <ArrowRight size={18} />
           </Link>
+          <a
+            href="https://jaredlederman.substack.com/"
+            className="button outline-button"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Join us on Substack <ArrowRight size={18} />
+          </a>
         </div>
       </div>
     </section>
