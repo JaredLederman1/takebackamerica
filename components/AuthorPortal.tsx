@@ -118,8 +118,12 @@ export default function AuthorPortal({ authenticated: initiallyAuthenticated }: 
   }
 
   function saveDraft() {
-    window.localStorage.setItem(DRAFT_KEY, JSON.stringify({ title, subtitle, post, image }));
-    setDraftStatus("Draft saved to this browser.");
+    try {
+      window.localStorage.setItem(DRAFT_KEY, JSON.stringify({ title, subtitle, post, image }));
+      setDraftStatus("Draft saved to this browser.");
+    } catch {
+      setDraftStatus("This draft is too large to save in this browser.");
+    }
   }
 
   function clearDraft() {
