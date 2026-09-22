@@ -1,9 +1,26 @@
 "use client";
 /* eslint-disable @next/next/no-img-element -- previews use local data URLs before upload. */
 
-import { useMemo, useState, type ChangeEvent, type FormEvent } from "react";
+import { useEffect, useMemo, useState, type ChangeEvent, type FormEvent } from "react";
 
 type PortalProps = { authenticated: boolean };
+const DRAFT_KEY = "tba-author-draft-v1";
+
+function renderPostPreview(post: string) {
+  const blocks = post.trim().split(/\n\s*\n/).filter(Boolean);
+  if (!blocks.length) return <p>Your article will appear here.</p>;
+
+  return blocks.map((block, index) => {
+    const text = block.trim();
+    if (text.startsWith("## ")) return <h2 key={index}>{text.slice(3)}</h2>;
+    if (text.startsWith("### ")) return <h3 key={index}>{text.slice(4)}</h3>;
+    if (text.startsWith("> ")) return <blockquote key={index}><p>{text.replace(/^>\s?/gm, "")}</p></blockquote>;
+    if (text.split("\n").every((line) => line.startsWith("- "))) {
+      return <ul key={index}>{text.split("\n").map((line) => <li key={line}>{line.slice(2)}</li>)}</ul>;
+    }
+    return <p key={index}>{text.replace(/\n/g, " ")}</p>;
+  });
+}
 
 export default function AuthorPortal({ authenticated: initiallyAuthenticated }: PortalProps) {
   const [authenticated, setAuthenticated] = useState(initiallyAuthenticated);
@@ -15,8 +32,28 @@ export default function AuthorPortal({ authenticated: initiallyAuthenticated }: 
   const [image, setImage] = useState<string | null>(null);
   const [showPreview, setShowPreview] = useState(false);
   const [status, setStatus] = useState<string | null>(null);
+  const [draftStatus, setDraftStatus] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const previewImage = useMemo(() => image, [image]);
+
+  useEffect(() => {
+    if (!authenticated) return;
+    const savedDraft = window.localStorage.getItem(DRAFT_KEY);
+    if (!savedDraft) return;
+    try {
+      const draft = JSON.parse(savedDraft) as { title?: string; subtitle?: string; post?: string; image?: string };
+      const restoreFrame = window.requestAnimationFrame(() => {
+        setTitle(draft.title || "");
+        setSubtitle(draft.subtitle || "");
+        setPost(draft.post || "");
+        setImage(draft.image || null);
+        setDraftStatus("Saved draft restored from this browser.");
+      });
+      return () => window.cancelAnimationFrame(restoreFrame);
+    } catch {
+      window.localStorage.removeItem(DRAFT_KEY);
+    }
+  }, [authenticated]);
 
   async function signIn(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -71,11 +108,28 @@ export default function AuthorPortal({ authenticated: initiallyAuthenticated }: 
       setPost("");
       setImage(null);
       setShowPreview(false);
+      window.localStorage.removeItem(DRAFT_KEY);
+      setDraftStatus(null);
     } catch (error) {
       setStatus(error instanceof Error ? error.message : "Could not publish the article.");
     } finally {
       setBusy(false);
     }
+  }
+
+  function saveDraft() {
+    window.localStorage.setItem(DRAFT_KEY, JSON.stringify({ title, subtitle, post, image }));
+    setDraftStatus("Draft saved to this browser.");
+  }
+
+  function clearDraft() {
+    window.localStorage.removeItem(DRAFT_KEY);
+    setTitle("");
+    setSubtitle("");
+    setPost("");
+    setImage(null);
+    setShowPreview(false);
+    setDraftStatus("Draft cleared.");
   }
 
   async function signOut() {
@@ -119,12 +173,47 @@ export default function AuthorPortal({ authenticated: initiallyAuthenticated }: 
         <label>Subtitle<input value={subtitle} onChange={(event) => setSubtitle(event.target.value)} maxLength={280} required /></label>
         <label>Post<textarea value={post} onChange={(event) => setPost(event.target.value)} rows={16} required placeholder="Write in Markdown if you want headings, links, or emphasis." /></label>
         {status && <p className={status.startsWith("Published") ? "author-success" : "form-error"} role="status">{status}</p>}
+        {draftStatus && <p className="author-draft-status" role="status">{draftStatus}</p>}
         <div className="author-actions">
+          <button className="text-button" type="button" onClick={clearDraft}>Clear draft</button>
+          <button className="button outline-button" type="button" onClick={saveDraft}>Save draft</button>
           <button className="button outline-button" type="button" onClick={() => setShowPreview((current) => !current)}>{showPreview ? "Hide preview" : "Preview"}</button>
           <button className="button" type="submit" disabled={busy}>{busy ? "Publishing..." : "Publish article"}</button>
         </div>
       </form>
-      {showPreview && <article className="author-preview"><p className="eyebrow red">PREVIEW</p>{previewImage && <img src={previewImage} alt="Article cover preview" />}<h1>{title || "Your article title"}</h1><p className="author-preview-subtitle">{subtitle || "Your article subtitle"}</p><div className="author-preview-post">{post || "Your article will appear here."}</div></article>}
+      {showPreview && (
+        <article className="author-preview" aria-label="Article preview">
+          <header className="container article-heading article-feature-header">
+            <div className="article-feature-copy">
+              <h1>{title || "Your article title"}</h1>
+              <p className="article-deck">{subtitle || "Your article subtitle"}</p>
+              <div className="article-feature-byline">
+                <img src="/images/jared-lederman.png" alt="Jared Lederman" width={64} height={64} />
+                <div>
+                  <span>By Jared Lederman</span>
+                  <time dateTime={new Date().toISOString().slice(0, 10)}>
+                    {new Intl.DateTimeFormat("en-US", { month: "long", day: "numeric", year: "numeric" }).format(new Date())}
+                  </time>
+                  <i aria-hidden="true" />
+                </div>
+              </div>
+            </div>
+            {previewImage && <div className="article-feature-image"><img src={previewImage} alt="Article cover preview" /></div>}
+          </header>
+          <div className="container prose article-prose">
+            {renderPostPreview(post)}
+            <p className="photo-credit">Photo by Caleb Ekeroth on Unsplash</p>
+          </div>
+          <aside className="container author-profile" aria-label="About the author">
+            <img src="/images/jared-lederman.png" alt="Jared Lederman" width={160} height={160} />
+            <div>
+              <span className="eyebrow red">About the author</span>
+              <h2>Jared Lederman</h2>
+              <p>Jared Lederman is the founder of Take Back America and a senior at Cornell University. He writes on culture, family, faith, and the responsibilities that shape a stronger America.</p>
+            </div>
+          </aside>
+        </article>
+      )}
     </section>
   );
 }
