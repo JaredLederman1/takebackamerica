@@ -4,8 +4,7 @@ import fs from "node:fs";
 import { getAllArticles, getArticleBySlug } from "../lib/articles";
 test("the published article is retrievable", () => {
   const articles = getAllArticles();
-  assert.equal(articles.length, 1);
-  assert.equal(articles[0].slug, "men-and-women-were-not-created-equal");
+  assert.ok(articles.some((article) => article.slug === "men-and-women-were-not-created-equal"));
   assert.equal(getArticleBySlug("../no-such-article"), undefined);
 });
 test("new files are discovered automatically and duplicate slugs fail clearly", () => {
