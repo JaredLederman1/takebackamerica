@@ -2095,3 +2095,23 @@ html {scroll-padding-top: 110px;}
 .footer-bottom {color: var(--navy);border-top-color: rgba(9, 19, 27, 0.25);}
 .footer-bottom strong {text-transform: uppercase;}
 .footer nav a:hover {color: var(--red);}
+
+.author-page {width: min(900px, 90%);min-height: 70vh;margin: 0 auto;padding: 90px 0;}
+.author-card {background: #fff;border: 1px solid var(--line);padding: clamp(24px, 5vw, 48px);box-shadow: 0 18px 45px rgba(9, 19, 27, 0.05);}
+.author-login {max-width: 510px;margin: 0 auto;}
+.author-card h1,.author-heading h1,.author-preview h1 {font-family: var(--serif);letter-spacing: -0.04em;color: var(--navy);margin: 9px 0 14px;font-size: clamp(42px, 6vw, 64px);line-height: 1;}
+.author-login > p:not(.eyebrow) {color: var(--muted);margin-bottom: 28px;line-height: 1.55;}
+.author-card label {color: var(--navy);margin: 22px 0 0;font-size: 13px;font-weight: 700;display: block;}
+.author-card input,.author-card textarea {box-sizing: border-box;border: 1px solid var(--line);background: #fff;color: var(--navy);width: 100%;margin-top: 8px;padding: 12px 14px;font: inherit;font-weight: 400;}
+.author-card textarea {resize: vertical;line-height: 1.6;}
+.author-login .button {width: 100%;margin-top: 26px;}
+.author-heading {justify-content: space-between;align-items: flex-end;margin-bottom: 26px;display: flex;}
+.author-heading h1 {margin-bottom: 0;}
+.author-image-preview,.author-preview img {object-fit: cover;width: 100%;max-height: 440px;margin-top: 18px;display: block;}
+.author-actions {justify-content: flex-end;gap: 12px;margin-top: 28px;display: flex;}
+.author-success {color: #17633b;background: #e7f4e9;border: 1px solid #8cc9a0;margin: 22px 0 0;padding: 12px 14px;line-height: 1.45;}
+.author-preview {background: #fff;border-top: 4px solid var(--red);margin-top: 45px;padding: clamp(24px, 5vw, 60px);}
+.author-preview img {margin: 20px 0 35px;}
+.author-preview-subtitle {font: italic clamp(20px, 3vw, 28px)/1.4 var(--serif);color: #34404a;}
+.author-preview-post {white-space: pre-wrap;color: #39454c;margin-top: 30px;font: 20px/1.75 var(--serif);}
+@media (max-width: 600px) {.author-page {width: 90%;padding: 55px 0;}.author-heading {align-items: flex-start;gap: 20px;}.author-actions {justify-content: stretch;flex-direction: column-reverse;}.author-actions .button {width: 100%;}}
