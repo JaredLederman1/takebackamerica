@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
-import { isAuthorSession } from "@/lib/author-auth";
+import { cookies } from "next/headers";
+import { authorSessionCookie, isAuthorSession } from "@/lib/author-auth";
 
 const MAX_IMAGE_BYTES = 3 * 1024 * 1024;
 const IMAGE_TYPES = new Map([
@@ -58,7 +59,8 @@ async function githubRequest(path: string, init: RequestInit) {
 }
 
 export async function POST(request: Request) {
-  if (!isAuthorSession(request.headers.get("cookie")?.match(/tba_author_session=([^;]+)/)?.[1])) {
+  const cookieStore = await cookies();
+  if (!isAuthorSession(cookieStore.get(authorSessionCookie.name)?.value)) {
     return NextResponse.json({ error: "Sign in to publish an article." }, { status: 401 });
   }
 

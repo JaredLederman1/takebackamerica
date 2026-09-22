@@ -60,8 +60,9 @@ export default function AuthorPortal({ authenticated: initiallyAuthenticated }: 
     setBusy(true);
     setStatus(null);
     try {
-      const response = await fetch("/api/author/login", {
+      const response = await fetch("/api/author/login/", {
         method: "POST",
+        credentials: "same-origin",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
@@ -95,8 +96,9 @@ export default function AuthorPortal({ authenticated: initiallyAuthenticated }: 
     setBusy(true);
     setStatus(null);
     try {
-      const response = await fetch("/api/author/publish", {
+      const response = await fetch("/api/author/publish/", {
         method: "POST",
+        credentials: "same-origin",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ title, subtitle, post, image }),
       });
@@ -137,7 +139,7 @@ export default function AuthorPortal({ authenticated: initiallyAuthenticated }: 
   }
 
   async function signOut() {
-    await fetch("/api/author/logout", { method: "POST" });
+    await fetch("/api/author/logout/", { method: "POST", credentials: "same-origin" });
     setAuthenticated(false);
     setStatus(null);
   }
