@@ -2114,6 +2114,45 @@ p {
   margin-top: clamp(32px, 3vw, 48px);
 }
 
+/* A full first viewport on phones keeps the next dark section out of view while
+   preserving the complete D.C. skyline behind the hero message. */
+@media (max-width: 600px) {
+  .hero {
+    height: 100vh;
+    height: 100svh;
+    height: 100dvh;
+    min-height: 100vh;
+    min-height: 100svh;
+    min-height: 100dvh;
+    padding-bottom: 0;
+  }
+
+  .hero-buttons .substack-button {
+    display: none;
+  }
+
+  .hero-photo img {
+    object-position: 58% center;
+    transform: none;
+  }
+
+  .hero:before {
+    background:
+      radial-gradient(
+        ellipse 120% 48% at 50% 33%,
+        rgba(255, 255, 255, 0.94) 0%,
+        rgba(248, 251, 253, 0.78) 38%,
+        rgba(248, 251, 253, 0.32) 68%,
+        rgba(248, 251, 253, 0) 100%
+      ),
+      linear-gradient(
+        180deg,
+        rgba(243, 247, 250, 0.26) 0%,
+        rgba(243, 247, 250, 0.05) 100%
+      );
+  }
+}
+
 /* Keep navigation available as the page scrolls. */
 .header {
   position: sticky;
