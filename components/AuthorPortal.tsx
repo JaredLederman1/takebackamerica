@@ -88,11 +88,17 @@ export default function AuthorPortal({ authenticated: initiallyAuthenticated }: 
     return (
       <section className="author-page">
         <form className="author-card author-login" onSubmit={signIn}>
-          <p className="eyebrow red">PRIVATE AUTHOR ACCESS</p>
-          <h1>Publish an article</h1>
-          <p>Sign in to draft, preview, and publish an article to Take Back America.</p>
-          <label>Email<input type="email" value={email} onChange={(event) => setEmail(event.target.value)} required autoComplete="email" /></label>
-          <label>Password<input type="password" value={password} onChange={(event) => setPassword(event.target.value)} required autoComplete="current-password" /></label>
+          <div className="author-login-brand" aria-hidden="true">TBA</div>
+          <h1>Sign in</h1>
+          <p>Enter your credentials to continue.</p>
+          <label>
+            Email address
+            <input type="email" value={email} onChange={(event) => setEmail(event.target.value)} required autoComplete="email" />
+          </label>
+          <label>
+            Password
+            <input type="password" value={password} onChange={(event) => setPassword(event.target.value)} required autoComplete="current-password" />
+          </label>
           {status && <p className="form-error" role="alert">{status}</p>}
           <button className="button" type="submit" disabled={busy}>{busy ? "Signing in..." : "Sign in"}</button>
         </form>
