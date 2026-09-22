@@ -919,9 +919,7 @@ p {
 }
 .magazine-page {padding-block: 76px 90px;}
 .home-latest-articles {padding-block: 78px 24px;}
-.magazine-heading {border-bottom: 3px solid var(--navy);padding-bottom: 15px;margin-bottom: 28px;}
-.magazine-heading .eyebrow {display: block;margin-bottom: 7px;}
-.magazine-heading h2 {font-size: clamp(36px, 4vw, 56px);letter-spacing: -0.04em;}
+.magazine-all-link {display: flex;justify-content: flex-end;margin-bottom: 16px;}
 .magazine-latest {display: grid;grid-template-columns: minmax(0, .9fr) minmax(0, 1.35fr) minmax(0, .9fr);gap: 28px;align-items: start;}
 .magazine-supporting {display: grid;gap: 28px;}
 .magazine-supporting .article-card + .article-card {border-top: 1px solid var(--line);padding-top: 28px;}

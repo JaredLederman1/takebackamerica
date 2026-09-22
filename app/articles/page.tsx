@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default function Articles() {
   return (
     <main className="container magazine-page">
-      <ArticleMagazine articles={getAllArticles()} title="Latest articles" showCategorySections />
+      <ArticleMagazine articles={getAllArticles()} showCategorySections />
     </main>
   );
 }

@@ -8,7 +8,7 @@ export default function Home() {
     <>
       <Hero />
       <div className="container home-latest-articles">
-        <ArticleMagazine articles={getAllArticles()} title="Latest from Take Back America" showAllLink />
+        <ArticleMagazine articles={getAllArticles()} showAllLink />
       </div>
       <MissionSection />
       <NewsletterSignup />

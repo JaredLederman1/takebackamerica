@@ -4,7 +4,6 @@ import ArticleCard from "./ArticleCard";
 
 type ArticleMagazineProps = {
   articles: Article[];
-  title: string;
   showAllLink?: boolean;
   showCategorySections?: boolean;
 };
@@ -34,7 +33,7 @@ function CategorySections({ articles }: { articles: Article[] }) {
   );
 }
 
-export default function ArticleMagazine({ articles, title, showAllLink = false, showCategorySections = false }: ArticleMagazineProps) {
+export default function ArticleMagazine({ articles, showAllLink = false, showCategorySections = false }: ArticleMagazineProps) {
   if (!articles.length) {
     return <div className="empty-results"><h2>Articles coming soon.</h2><p>Check back soon for the latest from Take Back America.</p></div>;
   }
@@ -46,11 +45,8 @@ export default function ArticleMagazine({ articles, title, showAllLink = false, 
   const remainingArticles = articles.slice(5);
 
   return (
-    <section className="magazine" aria-label={title}>
-      <div className="section-heading magazine-heading">
-        <div><span className="eyebrow red">TAKE BACK AMERICA</span><h2>{title}</h2></div>
-        {showAllLink && <Link href="/articles" className="text-button">All articles</Link>}
-      </div>
+    <section className="magazine">
+      {showAllLink && <div className="magazine-all-link"><Link href="/articles" className="text-button">All articles</Link></div>}
       <div className="magazine-latest">
         <div className="magazine-supporting magazine-supporting-left">
           {leftColumn.map((article) => <ArticleCard article={article} key={article.slug} />)}
