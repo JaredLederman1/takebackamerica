@@ -1,4 +1,4 @@
-const ZOHO_OPT_IN_URL = "https://zgnp-zngp.maillist-manage.com/weboptin.zc";
+const SUBSTACK_SUBSCRIBE_URL = "https://jaredlederman.substack.com/api/v1/free?nojs=true";
 
 export async function POST(request: Request) {
   const { email } = (await request.json()) as { email?: unknown };
@@ -7,34 +7,21 @@ export async function POST(request: Request) {
   }
 
   const form = new URLSearchParams({
-    CONTACT_EMAIL: email,
-    submitType: "optinCustomView",
-    emailReportId: "",
-    formType: "QuickForm",
-    zx: "137f94f32",
-    zcvers: "3.0",
-    oldListIds: "",
-    mode: "OptinCreateView",
-    zcld: "117bd2a5a1d71676b",
-    zctd: "",
-    zc_trackCode: "ZCFORMVIEW",
-    zc_formIx: "3ze4080922531b1dae6e70d1c37f690d87f6a1452d423ee18d08e593008cedfa08",
-    scriptless: "yes",
+    email,
+    source: "website",
   });
 
   try {
-    const response = await fetch(ZOHO_OPT_IN_URL, {
+    const response = await fetch(SUBSTACK_SUBSCRIBE_URL, {
       method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "User-Agent": "Mozilla/5.0",
+      },
       body: form,
       cache: "no-store",
     });
-    const responseBody = await response.text();
-    const providerReportedError = /problem in optin|unknown error occurred|error occured/i.test(
-      responseBody,
-    );
-
-    if (!response.ok || providerReportedError) {
+    if (!response.ok) {
       return Response.json({ error: "Newsletter signup failed." }, { status: 502 });
     }
   } catch {

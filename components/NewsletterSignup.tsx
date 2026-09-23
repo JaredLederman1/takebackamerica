@@ -1,6 +1,7 @@
 "use client";
 import { useState, type FormEvent } from "react";
 import { Check } from "lucide-react";
+
 export default function NewsletterSignup({ standalone = false }: { standalone?: boolean }) {
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">(
     "idle",
@@ -40,7 +41,7 @@ export default function NewsletterSignup({ standalone = false }: { standalone?: 
               <Check size={24} />
               <div>
                 <strong>Thanks for raising your hand.</strong>
-                <p>You&apos;re on the list.</p>
+                <p>Check your inbox to confirm your Substack subscription.</p>
                 <button className="text-button" onClick={() => setStatus("idle")}>
                   Back to signup
                 </button>
