@@ -2,8 +2,9 @@
 /* eslint-disable @next/next/no-img-element -- previews use local data URLs before upload. */
 
 import { useEffect, useMemo, useState, type ChangeEvent, type FormEvent, type PointerEvent } from "react";
+import type { Article } from "@/lib/articles";
 
-type PortalProps = { authenticated: boolean };
+type PortalProps = { authenticated: boolean; initialArticle?: Article };
 const DRAFT_KEY = "tba-author-draft-v1";
 type ImagePosition = { x: number; y: number };
 const DEFAULT_IMAGE_POSITION: ImagePosition = { x: 50, y: 50 };
@@ -28,15 +29,18 @@ function renderPostPreview(post: string) {
   });
 }
 
-export default function AuthorPortal({ authenticated: initiallyAuthenticated }: PortalProps) {
+export default function AuthorPortal({ authenticated: initiallyAuthenticated, initialArticle }: PortalProps) {
   const [authenticated, setAuthenticated] = useState(initiallyAuthenticated);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [title, setTitle] = useState("");
-  const [subtitle, setSubtitle] = useState("");
-  const [post, setPost] = useState("");
+  const [title, setTitle] = useState(initialArticle?.title || "");
+  const [subtitle, setSubtitle] = useState(initialArticle?.excerpt || "");
+  const [post, setPost] = useState(initialArticle?.content || "");
   const [image, setImage] = useState<string | null>(null);
-  const [imagePosition, setImagePosition] = useState<ImagePosition>(DEFAULT_IMAGE_POSITION);
+  const [imagePosition, setImagePosition] = useState<ImagePosition>(() => {
+    const [x = "50", y = "50"] = initialArticle?.imagePosition?.match(/\d+/g) || [];
+    return { x: Number(x), y: Number(y) };
+  });
   const [showPreview, setShowPreview] = useState(false);
   const [status, setStatus] = useState<string | null>(null);
   const [draftStatus, setDraftStatus] = useState<string | null>(null);
@@ -111,11 +115,11 @@ export default function AuthorPortal({ authenticated: initiallyAuthenticated }: 
         method: "POST",
         credentials: "same-origin",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ title, subtitle, post, image, imagePosition }),
+        body: JSON.stringify({ title, subtitle, post, image, imagePosition, slug: initialArticle?.slug }),
       });
       const result = (await response.json()) as { error?: string; slug?: string };
       if (!response.ok) throw new Error(result.error || "Could not publish the article.");
-      setStatus(`Published. Vercel will make /articles/${result.slug} available after its GitHub deployment finishes.`);
+      setStatus(`${initialArticle ? "Updated" : "Published"}. Vercel will make /articles/${result.slug} available after its GitHub deployment finishes.`);
       setTitle("");
       setSubtitle("");
       setPost("");
@@ -190,11 +194,12 @@ export default function AuthorPortal({ authenticated: initiallyAuthenticated }: 
   return (
     <section className="author-page">
       <div className="author-heading">
-        <div><p className="eyebrow red">AUTHOR STUDIO</p><h1>New article</h1></div>
+        <div><p className="eyebrow red">AUTHOR STUDIO</p><h1>{initialArticle ? "Edit article" : "New article"}</h1></div>
         <button className="text-button" type="button" onClick={signOut}>Sign out</button>
       </div>
       <form className="author-card author-editor" onSubmit={publish}>
-        <label>Feature image<input type="file" accept="image/jpeg,image/png,image/webp" onChange={chooseImage} required={!image} /></label>
+        <label>Feature image<input type="file" accept="image/jpeg,image/png,image/webp" onChange={chooseImage} required={!image && !initialArticle?.image} /></label>
+        {!image && initialArticle?.image && <p className="author-crop-help">Current feature image will be kept unless you choose a replacement.</p>}
         {image && <>
           <div
             className="author-crop-control"
@@ -221,7 +226,7 @@ export default function AuthorPortal({ authenticated: initiallyAuthenticated }: 
           <button className="text-button" type="button" onClick={clearDraft}>Clear draft</button>
           <button className="button outline-button" type="button" onClick={saveDraft}>Save draft</button>
           <button className="button outline-button" type="button" onClick={() => setShowPreview((current) => !current)}>{showPreview ? "Hide preview" : "Preview"}</button>
-          <button className="button" type="submit" disabled={busy}>{busy ? "Publishing..." : "Publish article"}</button>
+          <button className="button" type="submit" disabled={busy}>{busy ? (initialArticle ? "Updating..." : "Publishing...") : (initialArticle ? "Update article" : "Publish article")}</button>
         </div>
       </form>
       {showPreview && (

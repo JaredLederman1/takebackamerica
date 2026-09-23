@@ -4,6 +4,8 @@ import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { formatDate, getAllArticles, getArticleBySlug } from "@/lib/articles";
 import { assetPath } from "@/lib/paths";
+import { hasAuthorSession } from "@/lib/author-auth";
+import Link from "next/link";
 
 export const dynamicParams = false;
 
@@ -26,6 +28,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function ArticlePage({ params }: Props) {
   const article = getArticleBySlug((await params).slug);
   if (!article) notFound();
+  const isAdmin = await hasAuthorSession();
   return (
     <article>
       <header className="container article-heading article-feature-header">
@@ -45,6 +48,7 @@ export default async function ArticlePage({ params }: Props) {
               <i aria-hidden="true" />
             </div>
           </div>
+          {isAdmin && <Link className="article-edit-button" href={`/post?slug=${encodeURIComponent(article.slug)}`}>Edit piece</Link>}
         </div>
         {article.image && (
           <div className="article-feature-image">
