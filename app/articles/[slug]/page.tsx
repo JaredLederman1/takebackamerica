@@ -3,6 +3,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { formatDate, getAllArticles, getArticleBySlug } from "@/lib/articles";
+import { formatHeadline } from "@/lib/format";
 import { assetPath } from "@/lib/paths";
 import { hasAuthorSession } from "@/lib/author-auth";
 import Link from "next/link";
@@ -33,7 +34,7 @@ export default async function ArticlePage({ params }: Props) {
     <article>
       <header className="container article-heading article-feature-header">
         <div className="article-feature-copy">
-          <h1>{article.title}</h1>
+          <h1>{formatHeadline(article.title)}</h1>
           <p className="article-deck">{article.excerpt}</p>
           <div className="article-feature-byline">
             <Image

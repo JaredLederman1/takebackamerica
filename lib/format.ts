@@ -6,3 +6,10 @@ export function formatDate(date: string) {
     timeZone: "UTC",
   }).format(new Date(date));
 }
+
+/** Keeps quotation marks from becoming a headline line by themselves. */
+export function formatHeadline(title: string) {
+  return title
+    .replace(/([“"])(?=\S)/g, "$1\u2060")
+    .replace(/(?<=\S)([”"])/g, "\u2060$1");
+}

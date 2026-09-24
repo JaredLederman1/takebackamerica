@@ -3,6 +3,7 @@
 
 import { useEffect, useMemo, useState, type ChangeEvent, type ClipboardEvent, type FormEvent, type PointerEvent, type ReactNode } from "react";
 import type { Article } from "@/lib/articles";
+import { formatHeadline } from "@/lib/format";
 
 type PortalProps = { authenticated: boolean; initialArticle?: Article };
 const DRAFT_KEY = "tba-author-draft-v1";
@@ -292,7 +293,7 @@ export default function AuthorPortal({ authenticated: initiallyAuthenticated, in
         <article className="author-preview" aria-label="Article preview">
           <header className="container article-heading article-feature-header">
             <div className="article-feature-copy">
-              <h1>{title || "Your article title"}</h1>
+              <h1>{formatHeadline(title || "Your article title")}</h1>
               <p className="article-deck">{subtitle || "Your article subtitle"}</p>
               <div className="article-feature-byline">
                 <img src="/images/jared-lederman.png" alt="Jared Lederman" width={64} height={64} />
