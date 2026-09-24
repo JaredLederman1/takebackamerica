@@ -1,7 +1,7 @@
 "use client";
 /* eslint-disable @next/next/no-img-element -- previews use local data URLs before upload. */
 
-import { useEffect, useMemo, useState, type ChangeEvent, type FormEvent, type PointerEvent } from "react";
+import { useEffect, useMemo, useState, type ChangeEvent, type ClipboardEvent, type FormEvent, type PointerEvent, type ReactNode } from "react";
 import type { Article } from "@/lib/articles";
 
 type PortalProps = { authenticated: boolean; initialArticle?: Article };
@@ -13,6 +13,47 @@ function imageObjectPosition(position: ImagePosition) {
   return `${position.x}% ${position.y}%`;
 }
 
+function renderInlineMarkdown(text: string): ReactNode[] {
+  const parts: ReactNode[] = [];
+  const linkPattern = /\[([^\]]+)\]\(<((?:https?:\/\/|mailto:)[^>\s]+)>\)|\[([^\]]+)\]\(((?:https?:\/\/|mailto:)[^)\s]+)\)/g;
+  let lastIndex = 0;
+
+  for (const match of text.matchAll(linkPattern)) {
+    const index = match.index ?? 0;
+    if (index > lastIndex) parts.push(text.slice(lastIndex, index));
+    const href = match[2] || match[4];
+    const label = match[1] || match[3];
+    parts.push(<a href={href} key={`${index}-${href}`} target="_blank" rel="noreferrer">{label}</a>);
+    lastIndex = index + match[0].length;
+  }
+  if (lastIndex < text.length) parts.push(text.slice(lastIndex));
+  return parts.length ? parts : [text];
+}
+
+function markdownFromPastedHtml(html: string) {
+  const document = new DOMParser().parseFromString(html, "text/html");
+  const blockElements = new Set(["ADDRESS", "ARTICLE", "ASIDE", "BLOCKQUOTE", "DIV", "FIGCAPTION", "FIGURE", "H1", "H2", "H3", "H4", "H5", "H6", "LI", "P", "SECTION"]);
+
+  function serialize(node: Node): string {
+    if (node.nodeType === Node.TEXT_NODE) return node.textContent || "";
+    if (!(node instanceof HTMLElement)) return "";
+    if (node.tagName === "BR") return "\n";
+
+    const contents = Array.from(node.childNodes, serialize).join("");
+    if (node instanceof HTMLAnchorElement) {
+      const href = node.href;
+      if (/^(https?:|mailto:)/i.test(href)) {
+        const label = contents.replace(/([\\\[\]])/g, "\\$1").trim() || href;
+        return `[${label}](<${href}>)`;
+      }
+    }
+    if (node.tagName === "LI") return `- ${contents.trim()}\n`;
+    return blockElements.has(node.tagName) ? `\n${contents.trim()}\n` : contents;
+  }
+
+  return serialize(document.body).replace(/\n{3,}/g, "\n\n").trim();
+}
+
 function renderPostPreview(post: string) {
   const blocks = post.trim().split(/\n\s*\n/).filter(Boolean);
   if (!blocks.length) return <p>Your article will appear here.</p>;
@@ -21,11 +62,11 @@ function renderPostPreview(post: string) {
     const text = block.trim();
     if (text.startsWith("## ")) return <h2 key={index}>{text.slice(3)}</h2>;
     if (text.startsWith("### ")) return <h3 key={index}>{text.slice(4)}</h3>;
-    if (text.startsWith("> ")) return <blockquote key={index}><p>{text.replace(/^>\s?/gm, "")}</p></blockquote>;
+    if (text.startsWith("> ")) return <blockquote key={index}><p>{renderInlineMarkdown(text.replace(/^>\s?/gm, ""))}</p></blockquote>;
     if (text.split("\n").every((line) => line.startsWith("- "))) {
-      return <ul key={index}>{text.split("\n").map((line) => <li key={line}>{line.slice(2)}</li>)}</ul>;
+      return <ul key={index}>{text.split("\n").map((line) => <li key={line}>{renderInlineMarkdown(line.slice(2))}</li>)}</ul>;
     }
-    return <p key={index}>{text.replace(/\n/g, " ")}</p>;
+    return <p key={index}>{renderInlineMarkdown(text.replace(/\n/g, " "))}</p>;
   });
 }
 
@@ -104,6 +145,23 @@ export default function AuthorPortal({ authenticated: initiallyAuthenticated, in
     };
     reader.readAsDataURL(file);
     setStatus(null);
+  }
+
+  function preservePastedLinks(event: ClipboardEvent<HTMLTextAreaElement>) {
+    const html = event.clipboardData.getData("text/html");
+    if (!html || !/<a\b/i.test(html)) return;
+    const pastedPost = markdownFromPastedHtml(html);
+    if (!pastedPost) return;
+
+    event.preventDefault();
+    const textarea = event.currentTarget;
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    const nextPost = `${post.slice(0, start)}${pastedPost}${post.slice(end)}`;
+    setPost(nextPost);
+    window.requestAnimationFrame(() => {
+      textarea.selectionStart = textarea.selectionEnd = start + pastedPost.length;
+    });
   }
 
   async function publish(event: FormEvent<HTMLFormElement>) {
@@ -219,7 +277,8 @@ export default function AuthorPortal({ authenticated: initiallyAuthenticated, in
         </>}
         <label>Title<input value={title} onChange={(event) => setTitle(event.target.value)} maxLength={140} required /></label>
         <label>Subtitle<input value={subtitle} onChange={(event) => setSubtitle(event.target.value)} maxLength={280} required /></label>
-        <label>Post<textarea value={post} onChange={(event) => setPost(event.target.value)} rows={16} required placeholder="Write in Markdown if you want headings, links, or emphasis." /></label>
+        <label>Post<textarea value={post} onChange={(event) => setPost(event.target.value)} onPaste={preservePastedLinks} rows={16} required placeholder="Write in Markdown if you want headings, links, or emphasis." /></label>
+        <p className="author-paste-help">Links in pasted text are preserved and published as clickable links.</p>
         {status && <p className={status.startsWith("Published") ? "author-success" : "form-error"} role="status">{status}</p>}
         {draftStatus && <p className="author-draft-status" role="status">{draftStatus}</p>}
         <div className="author-actions">
