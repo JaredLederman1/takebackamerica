@@ -160,7 +160,6 @@ export default async function Section({
         <section className="container info-page support-page">
           <p className="eyebrow">{page.eyebrow}</p>
           <h1>{page.title}</h1>
-          <p className="article-deck">{page.copy}</p>
           <p>{page.detail}</p>
           <DonationCheckout />
         </section>

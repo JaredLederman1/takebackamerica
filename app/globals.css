@@ -787,16 +787,6 @@ p {
 .footer nav a:hover {
   color: #ee797d;
 }
-.social-icons {
-  display: flex;
-  align-items: center;
-  gap: 23px;
-  font-size: 20px;
-}
-.social-icons span {
-  display: flex;
-  align-items: center;
-}
 .footer .button {
   min-width: 155px;
   font-size: 10px;
@@ -954,8 +944,6 @@ p {
 @media (max-width: 600px) {
   .magazine-page {padding-block: 48px 60px;}
   .home-latest-articles {padding-block: 54px 12px;}
-  .magazine-heading {align-items: end;}
-  .magazine-heading h2 {font-size: 37px;}
   .magazine-latest,.magazine-supporting-right,.magazine-category-grid {grid-template-columns: 1fr;}
   .magazine-lead {grid-row: 1;padding: 0 0 28px;border: 0;border-bottom: 1px solid var(--line);}
   .magazine-supporting-left {grid-row: 2;}
@@ -1522,9 +1510,6 @@ p {
     gap: 22px;
     font-size: 9px;
   }
-  .social-icons {
-    gap: 16px;
-  }
   .footer .button {
     min-width: 110px;
   }
@@ -1684,9 +1669,6 @@ p {
     font-size: 26px;
   }
   .footer .button {
-    margin-left: auto;
-  }
-  .social-icons {
     margin-left: auto;
   }
   .article-index-grid {
@@ -1963,11 +1945,6 @@ p {
   .footer .logo {
     font-size: 25px;
   }
-  .social-icons {
-    order: 3;
-    margin: 0;
-    gap: 23px;
-  }
   .footer nav {
     order: 2;
     justify-content: flex-start;
@@ -2103,7 +2080,7 @@ p {
 .hero-brand h1.sr-only {position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);font-size:1px;}
 .hero {min-height:690px;}
 @media(max-width:1200px){.desktop-nav{display:none}.menu-toggle{display:flex}.header-home .menu-toggle{color:var(--navy)}.mobile-nav{display:flex;flex-direction:column;background:var(--cream);padding:12px 5% 22px;border-bottom:1px solid var(--line);max-height:75vh;overflow:auto}.mobile-nav a{padding:11px 0;border-bottom:1px solid var(--line);font-size:14px;font-weight:700;text-transform:uppercase}.header-home.menu-open .menu-toggle{color:var(--navy)}}
-@media(max-width:600px){.logo.brand-logo{width:190px}.hero-title.hero-brand{width:100%;max-width:440px}.hero .hero-content{padding-top:160px}.hero{min-height:690px}.header-home .menu-toggle{color:var(--navy)}.footer .logo.brand-logo-reversed{width:190px}}
+@media(max-width:600px){.logo.brand-logo{width:190px}.hero-title.hero-brand{width:100%;max-width:440px}.hero .hero-content{padding-top:160px}.header-home .menu-toggle{color:var(--navy)}.footer .logo.brand-logo-reversed{width:190px}}
 @media(max-width:380px){.logo.brand-logo{width:155px}.header-inner{gap:8px}.header-actions{gap:3px}}
 
 /* Centered hero messaging. */

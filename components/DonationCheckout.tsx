@@ -28,6 +28,11 @@ export default function DonationCheckout() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ amount: Math.round(chosenAmount * 100) }),
       });
+
+      if (!response.headers.get("content-type")?.includes("application/json")) {
+        throw new Error("Checkout is unavailable right now. Please try again later.");
+      }
+
       const data = (await response.json()) as { url?: string; error?: string };
 
       if (!response.ok || !data.url) throw new Error(data.error ?? "Unable to start checkout.");
@@ -75,7 +80,7 @@ export default function DonationCheckout() {
       </fieldset>
       {error && <p className="form-error" role="alert">{error}</p>}
       <button className="button" type="submit" disabled={isLoading}>
-        {isLoading ? "Opening checkout..." : "Continue to secure checkout"}
+        {isLoading ? "Opening checkout..." : "Continue"}
       </button>
       <p className="donation-note">
         Contributions support Take Back America&apos;s media work. They are not tax-deductible.
