@@ -6,9 +6,10 @@ type ArticleMagazineProps = {
   articles: Article[];
   showAllLink?: boolean;
   showCategorySections?: boolean;
+  showCardCategories?: boolean;
 };
 
-function CategorySections({ articles }: { articles: Article[] }) {
+function CategorySections({ articles, showCardCategories }: { articles: Article[]; showCardCategories: boolean }) {
   const categories = new Map<string, Article[]>();
   for (const article of articles) {
     const categoryArticles = categories.get(article.category) || [];
@@ -25,7 +26,7 @@ function CategorySections({ articles }: { articles: Article[] }) {
             <h2 id={`category-${category}`}>{category}</h2>
           </div>
           <div className="magazine-category-grid">
-            {categoryArticles.map((article) => <ArticleCard article={article} key={article.slug} />)}
+            {categoryArticles.map((article) => <ArticleCard article={article} key={article.slug} showCategory={showCardCategories} />)}
           </div>
         </section>
       ))}
@@ -33,7 +34,7 @@ function CategorySections({ articles }: { articles: Article[] }) {
   );
 }
 
-export default function ArticleMagazine({ articles, showAllLink = false, showCategorySections = false }: ArticleMagazineProps) {
+export default function ArticleMagazine({ articles, showAllLink = false, showCategorySections = false, showCardCategories = true }: ArticleMagazineProps) {
   if (!articles.length) {
     return <div className="empty-results"><h2>Articles coming soon.</h2><p>Check back soon for the latest from Take Back America.</p></div>;
   }
@@ -49,14 +50,14 @@ export default function ArticleMagazine({ articles, showAllLink = false, showCat
       {showAllLink && <div className="magazine-all-link"><Link href="/articles" className="text-button">All articles</Link></div>}
       <div className="magazine-latest">
         <div className="magazine-supporting magazine-supporting-left">
-          {leftColumn.map((article) => <ArticleCard article={article} key={article.slug} />)}
+          {leftColumn.map((article) => <ArticleCard article={article} key={article.slug} showCategory={showCardCategories} />)}
         </div>
-        <div className="magazine-lead"><ArticleCard article={lead} large /></div>
+        <div className="magazine-lead"><ArticleCard article={lead} large showCategory={showCardCategories} /></div>
         <div className="magazine-supporting magazine-supporting-right">
-          {rightColumn.map((article) => <ArticleCard article={article} key={article.slug} />)}
+          {rightColumn.map((article) => <ArticleCard article={article} key={article.slug} showCategory={showCardCategories} />)}
         </div>
       </div>
-      {showCategorySections && remainingArticles.length > 0 && <CategorySections articles={remainingArticles} />}
+      {showCategorySections && remainingArticles.length > 0 && <CategorySections articles={remainingArticles} showCardCategories={showCardCategories} />}
     </section>
   );
 }

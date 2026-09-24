@@ -1017,7 +1017,7 @@ p {
 .article-feature-header h1 {
   max-inline-size: 100%;
   font-size: clamp(44px, 4.5vw, 68px);
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
   text-wrap: balance;
 }
 .article-feature-header .article-deck {

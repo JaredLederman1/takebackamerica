@@ -6,9 +6,11 @@ import { assetPath } from "@/lib/paths";
 export default function ArticleCard({
   article,
   large = false,
+  showCategory = true,
 }: {
   article: Article;
   large?: boolean;
+  showCategory?: boolean;
 }) {
   return (
     <article className={`article-card ${large ? "card-large" : ""}`}>
@@ -33,7 +35,7 @@ export default function ArticleCard({
         </Link>
       )}
       <div className="card-copy">
-        <span className="eyebrow red">{article.category}</span>
+        {showCategory && <span className="eyebrow red">{article.category}</span>}
         <h3>
           <Link href={`/articles/${article.slug}`}>{article.title}</Link>
         </h3>
