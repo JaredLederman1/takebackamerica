@@ -1020,6 +1020,9 @@ p {
   overflow-wrap: break-word;
   text-wrap: balance;
 }
+.headline-quoted {
+  white-space: nowrap;
+}
 .article-feature-header .article-deck {
   margin: 12px 0 30px;
   font-size: clamp(21px, 2vw, 29px);
