@@ -53,7 +53,7 @@ Import this GitHub repository into Vercel and select the Next.js framework prese
 
 Article index, client-side search, static MDX routes, related articles, and copy-link sharing work. Our Mission is a published page. Videos, podcast, events, support, and contact have explicit coming-soon pages. No payment data is collected.
 
-The newsletter form submits to Substack through a Next.js server route and displays confirmation on the Take Back America site. It requires a server-capable deployment such as Vercel; static exports cannot serve the `/api/newsletter` endpoint. Substack handles confirmation and subscription status.
+The newsletter form posts to Substack from the visitor’s browser in a hidden frame, keeping the visitor on Take Back America while Substack handles confirmation and subscription status. This avoids server-side requests being rejected by Substack’s bot protection and works on static deployments.
 
 No articles are currently published. Reintroduce the article-detail route alongside the first MDX article before publishing it. The requested “Join Thousands” headline is supplied brand copy, not a verified subscriber count; confirm that claim or revise it before launch.
 

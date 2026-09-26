@@ -3,32 +3,14 @@ import { useState, type FormEvent } from "react";
 import { Check } from "lucide-react";
 
 export default function NewsletterSignup({ standalone = false }: { standalone?: boolean }) {
-  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
-  const [error, setError] = useState<string | null>(null);
+  const [status, setStatus] = useState<"idle" | "success">("idle");
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = event.currentTarget;
-    const email = new FormData(form).get("email");
-    if (typeof email !== "string") return;
-
-    setStatus("submitting");
-    setError(null);
-    try {
-      const response = await fetch("/api/newsletter", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      });
-      const result = (await response.json()) as { error?: string };
-      if (!response.ok) throw new Error(result.error ?? "We couldn’t add you right now.");
-
-      setStatus("success");
-      form.reset();
-    } catch (caught) {
-      setStatus("error");
-      setError(caught instanceof Error ? caught.message : "We couldn’t add you right now.");
-    }
+    form.submit();
+    setStatus("success");
+    form.reset();
   }
 
   return (
@@ -41,6 +23,13 @@ export default function NewsletterSignup({ standalone = false }: { standalone?: 
           </h2>
         </div>
         <div className="signup-area">
+          <iframe
+            aria-hidden="true"
+            className="sr-only"
+            name="substack-newsletter-signup"
+            tabIndex={-1}
+            title="Substack newsletter signup"
+          />
           {status === "success" ? (
             <div className="signup-success" role="status">
               <Check size={24} />
@@ -53,7 +42,12 @@ export default function NewsletterSignup({ standalone = false }: { standalone?: 
               </div>
             </div>
           ) : (
-            <form onSubmit={submit}>
+            <form
+              action="https://jaredlederman.substack.com/api/v1/free?nojs=true"
+              method="post"
+              onSubmit={submit}
+              target="substack-newsletter-signup"
+            >
               <label className="sr-only" htmlFor="newsletter-email">
                 Your email address
               </label>
@@ -68,16 +62,13 @@ export default function NewsletterSignup({ standalone = false }: { standalone?: 
                   maxLength={254}
                   aria-describedby="signup-note"
                 />
-                <button className="button" type="submit" disabled={status === "submitting"}>
-                  {status === "submitting" ? "Joining..." : "Join now"}
+                <button className="button" type="submit">
+                  Join now
                 </button>
               </div>
               <p className="form-note" id="signup-note">
                 Get the latest articles, videos, and event updates.
               </p>
-              {status === "error" && (
-                <p className="form-error" role="alert">{error}</p>
-              )}
             </form>
           )}
         </div>
