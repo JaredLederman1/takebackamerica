@@ -53,7 +53,7 @@ Import this GitHub repository into Vercel and select the Next.js framework prese
 
 Article index, client-side search, static MDX routes, related articles, and copy-link sharing work. Our Mission is a published page. Videos, podcast, events, support, and contact have explicit coming-soon pages. No payment data is collected.
 
-The newsletter form submits through a Next.js server route to the configured email provider. It requires a server-capable deployment such as Vercel; static exports cannot serve the `/api/newsletter` endpoint. Keep provider credentials server-side, and add consent and rate limiting as appropriate.
+The newsletter form posts directly to Take Back America’s Substack signup endpoint, so it works on both server-capable and static deployments. Substack handles confirmation and subscription status.
 
 No articles are currently published. Reintroduce the article-detail route alongside the first MDX article before publishing it. The requested “Join Thousands” headline is supplied brand copy, not a verified subscriber count; confirm that claim or revise it before launch.
 
