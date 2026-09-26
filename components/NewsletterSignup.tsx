@@ -1,4 +1,36 @@
+"use client";
+import { useState, type FormEvent } from "react";
+import { Check } from "lucide-react";
+
 export default function NewsletterSignup({ standalone = false }: { standalone?: boolean }) {
+  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+  const [error, setError] = useState<string | null>(null);
+
+  async function submit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const email = new FormData(form).get("email");
+    if (typeof email !== "string") return;
+
+    setStatus("submitting");
+    setError(null);
+    try {
+      const response = await fetch("/api/newsletter", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      const result = (await response.json()) as { error?: string };
+      if (!response.ok) throw new Error(result.error ?? "We couldn’t add you right now.");
+
+      setStatus("success");
+      form.reset();
+    } catch (caught) {
+      setStatus("error");
+      setError(caught instanceof Error ? caught.message : "We couldn’t add you right now.");
+    }
+  }
+
   return (
     <section className={`newsletter ${standalone ? "newsletter-standalone" : ""}`} id="newsletter">
       <div className="container newsletter-inner">
@@ -9,10 +41,19 @@ export default function NewsletterSignup({ standalone = false }: { standalone?: 
           </h2>
         </div>
         <div className="signup-area">
-          <form
-            action="https://jaredlederman.substack.com/api/v1/free?nojs=true"
-            method="post"
-          >
+          {status === "success" ? (
+            <div className="signup-success" role="status">
+              <Check size={24} />
+              <div>
+                <strong>Thanks for raising your hand.</strong>
+                <p>Check your inbox to confirm your Substack subscription.</p>
+                <button className="text-button" type="button" onClick={() => setStatus("idle")}>
+                  Back to signup
+                </button>
+              </div>
+            </div>
+          ) : (
+            <form onSubmit={submit}>
               <label className="sr-only" htmlFor="newsletter-email">
                 Your email address
               </label>
@@ -27,14 +68,18 @@ export default function NewsletterSignup({ standalone = false }: { standalone?: 
                   maxLength={254}
                   aria-describedby="signup-note"
                 />
-                <button className="button" type="submit">
-                  Join now
+                <button className="button" type="submit" disabled={status === "submitting"}>
+                  {status === "submitting" ? "Joining..." : "Join now"}
                 </button>
               </div>
               <p className="form-note" id="signup-note">
                 Get the latest articles, videos, and event updates.
               </p>
-          </form>
+              {status === "error" && (
+                <p className="form-error" role="alert">{error}</p>
+              )}
+            </form>
+          )}
         </div>
       </div>
     </section>
